@@ -1,0 +1,54 @@
+body {
+	background-color: #f8f9fa;
+	/* Light gray color */
+}
+
+.rounded-photo {
+	width: 200px;
+	/* Adjust the size as needed */
+	height: 200px;
+	object-fit: cover;
+	border-radius: 50%;
+	border: 3px solid #ddd;
+}
+
+.department-photo {
+	width: 250px;
+	/* Adjust the size as needed */
+	height: 250px;
+	object-fit: cover;
+	border-radius: 20%;
+	border: 3px solid #ddd;
+}
+
+
+@keyframes slideContinuous {
+	0% {
+		transform: translateX(100%);
+		/* Start off-screen to the right */
+	}
+
+	100% {
+		transform: translateX(0%);
+		/* Slide off-screen to the left */
+	}
+}
+
+/* Apply Animation to Image */
+.continuous-slide {
+	animation: slideContinuous 10s linear;
+	/* 10s duration, infinite loop */
+	position: absolute;
+	white-space: nowrap;
+}
+
+/* Parent Container for the Sliding Image */
+.sliding-container {
+	position: relative;
+	overflow: hidden;
+	/* Hide parts of the image outside the container */
+	height: 200px;
+	/* Set the container height */
+	background-color: #f8f9fa;
+	/* Light gray background */
+}
