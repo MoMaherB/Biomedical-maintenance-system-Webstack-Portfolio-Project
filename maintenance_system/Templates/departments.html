@@ -7,70 +7,13 @@
 	<div class="col-lg-8 mt-4 mb-4">
 		<div class="card p-3 shadow-sm">
 			<div class="row">
-				<h1 class="text-center">Departments</h1>
-				<a href="{{ url_for('add_department') }}"><button type="button" class="btn btn-info btn-md">Add
-						New Department</button></a>
-				{% if url_for('add_department') == request.path %}
-				<div class="row justify-content-center">
-					<div class="col-lg-8 mt-4 mb-4">
-						<div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 w-50"
-							role="alert">
-							<a href="{{ url_for('departments')}} "><button type="button" class="btn-close"
-									data-bs-dismiss="alert" aria-label="Close"></button></a>
-							<h1 class="text-center">Add New Department</h1>
-							<br>
-							<form method="post" class="justify-content-center text-center">
-								{{ form.hidden_tag()}}
-
-								{{ form.name.label(class="form-label")}}
-								{% if form.name.errors %}
-								{{ form.name(class="form-control is-invalid") }}
-								<div id="validationServer03Feedback" class="invalid-feedback">
-									{% for error in form.name.errors %}
-									{{ error }}
-									{% endfor %}
-								</div>
-								{% else %}
-								{{ form.name(class="form-control")}}
-								{% endif %}
-								<br>
-								{{ form.submit(class="btn btn-secondary btn-lg")}}
-							</form>
-						</div>
-					</div>
+				<div class="col-md-8 col-lg-12 mt-4 mb-4">
+					<h1 class="text-center">Departments</h1>
+					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
+						data-bs-target="#addDepartment">Add
+						New Department</button>
 				</div>
-				{% endif %}
 				{% for department in departments %}
-				{% if url_for('update_department', id=department.id) == request.path %}
-				<div class="row justify-content-center">
-					<div class="col-lg-8 mt-4 mb-4">
-						<div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 w-50"
-							role="alert">
-							<a href="{{ url_for('departments')}} "><button type="button" class="btn-close"
-									data-bs-dismiss="alert" aria-label="Close"></button></a>
-							<h1 class="text-center">Update Department</h1>
-							<br>
-							<form method="post" class="justify-content-center text-center">
-								{{ form.hidden_tag()}}
-
-								{{ form.name.label(class="form-label")}}
-								{% if form.name.errors %}
-								{{ form.name(class="form-control is-invalid") }}
-								<div id="validationServer03Feedback" class="invalid-feedback">
-									{% for error in form.name.errors %}
-									{{ error }}
-									{% endfor %}
-								</div>
-								{% else %}
-								{{ form.name(class="form-control")}}
-								{% endif %}
-								<br>
-								{{ form.submit(class="btn btn-secondary btn-lg")}}
-							</form>
-						</div>
-					</div>
-				</div>
-				{% endif %}
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<div class="card p-3 shadow-sm">
 						<div class="row align-items-center">
@@ -101,8 +44,7 @@
 								<div class="list-group">
 									{% for device in department.devices%}
 									{# {{url_for('device', id = device.id)}} #}
-									<a href="#"
-										class="list-group-item list-group-item-action">{{
+									<a href="" class="list-group-item list-group-item-action">{{
 										device.name }}</a>
 									{% endfor%}
 								</div>
@@ -118,12 +60,13 @@
 								<br>
 								<hr>
 								<div>
-									<a href="{{ url_for('update_department', id = department.id)}}"><button
-											type="button" class="btn btn-warning btn-custom mt-1">Update
-											Department</button></a>
-									<a href="{{ url_for('delete_department', id = department.id)}}"><button
-											type="button" class="btn btn-danger custom-button mt-1">Delete
-											Department</button></a>
+									<button type="button" class="btn btn-warning btn-custom mt-1" data-bs-toggle="modal"
+										data-bs-target="#updateDepartment{{ department.id }}">Update
+										Department</button>
+									<button type="button" class="btn btn-danger custom-button mt-1"
+										data-bs-toggle="modal"
+										data-bs-target="#deleteDepartment{{ department.id }}">Delete
+										Department </button>
 								</div>
 							</div>
 							<!-- Right Side: User Photo -->
@@ -134,10 +77,109 @@
 						</div>
 					</div>
 				</div>
+				<!-- Add Department Modal -->
+				<div class="modal fade" id="addDepartment" data-bs-backdrop="static" data-bs-keyboard="false"
+					tabindex="-1" aria-labelledby="addDepartmentLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="addDepartmentLabel">Add
+									New Department</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form method="POST" action="{{ url_for('add_department') }}">
+									{{ form.hidden_tag() }} <!-- CSRF token -->
+
+									<!-- Department Name Field -->
+									{{ form.name.label(class="form-label") }}
+									{% if form.name.errors %}
+									{{ form.name(class="form-control is-invalid") }}
+									<div class="invalid-feedback">
+										{% for error in form.name.errors %}
+										{{ error }}
+										{% endfor %}
+									</div>
+									{% else %}
+									{{ form.name(class="form-control mt-3") }}
+									{% endif %}
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-primary">Add
+											Department</button>
+									</div>
+								</form>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Update Department Modal -->
+				<div class="modal fade" id="updateDepartment{{ department.id }}" data-bs-backdrop="static"
+					data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateDepartmentLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="updateDepartmentLabel">Update
+									Department</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form method="POST" action="{{ url_for('update_department', id = department.id)}}">
+									{{ form.hidden_tag() }} <!-- CSRF token -->
+
+									<!-- Department Name Field -->
+									{{ form.name.label(class="form-label") }}
+									{% if form.name.errors %}
+									{{ form.name(class="form-control is-invalid") }}
+									<div class="invalid-feedback">
+										{% for error in form.name.errors %}
+										{{ error }}
+										{% endfor %}
+									</div>
+									{% else %}
+									{{ form.name(class="form-control mt-3", value= department.name )
+									}}
+									{% endif %}
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-primary">Update
+											Department</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Delete Department Modal -->
+				<div class="modal fade" id="deleteDepartment{{ department.id }}" data-bs-keyboard="false" tabindex="-1"
+					aria-labelledby="deleteDepartmentLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="deleteDepartmentLabel">Are you sure
+									that you want to
+									delete
+									{{department.name}} department and all devices and models and
+									machines inside it ?
+								</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form method="POST" action="{{ url_for('delete_department', id=department.id) }}">
+									<button type="submit" class="btn btn-danger mt-3">Delete {{
+										department.name }} Department !!!</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 				{% endfor %}
 			</div>
 		</div>
 	</div>
+</div>
 
-
-	{% endblock%}
+{% endblock%}

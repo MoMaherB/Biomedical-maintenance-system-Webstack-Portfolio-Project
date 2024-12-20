@@ -7,7 +7,9 @@
 	<div class="col-lg-8 mt-4 mb-4">
 		<div class="card p-3 shadow-sm">
 			<div class="row">
-				<h1 class="text-center">{{ department.name }} Devices</h1>
+				<a href="{{ url_for('department', id = department.id) }}">
+					<h1 class="text-center">{{ department.name }} Devices</h1>
+				</a>
 				<a href="{{ url_for('add_device', department_id = department.id) }}"><button type="button"
 						class="btn btn-info btn-md">Add
 						New Device</button></a>
@@ -77,8 +79,7 @@
 						<div class="row align-items-center">
 							<!-- Left Side: User Information -->
 							<div class="col-lg-8 col-12">
-								{# {{ url_for('departments', id = department.id)}} #}
-								<a href="#">
+								<a href="{{ url_for('device', device_id = device.id)}}">
 									<h4 class="mb-1 text-center">{{device.name}} Device</h4>
 								</a>
 								<br>
@@ -87,8 +88,7 @@
 									{# {{ url_for('update_department', id = department.id)}} #}
 									<a href="#"><button type="button" class="btn btn-warning btn-custom mt-1">Update
 											Device</button></a>
-									{# {{ url_for('delete_department', id = department.id)}} #}
-									<a href="#"><button type="button" class="btn btn-danger custom-button mt-1">Delete
+									<a href="{{ url_for('delete_device', device_id = device.id)}}"><button type="button" class="btn btn-danger custom-button mt-1">Delete
 											Device</button></a>
 								</div>
 							</div>
