@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-from maintenance_system.models import User
+from maintenance_system.models import User, Department
 
 #=========================================User Forms====================================================
 
@@ -21,3 +21,15 @@ class UserForm(FlaskForm):
 		user = User.query.filter_by(email=email.data.strip()).first()
 		if user:
 			raise ValidationError('This email already taken. Please choose another one.')
+		
+#=========================================Department Forms====================================================
+
+
+class DepartmentForm(FlaskForm):
+	name = StringField('Department Name', validators=[DataRequired(), Length(min=2, max=20)])
+	submit = SubmitField('Add')
+
+	def validate_name(self, name):
+		department = Department.query.filter_by(name=name.data.strip()).first()
+		if department:
+			raise ValidationError('This department name already exists. Please choose another one.')

@@ -52,3 +52,14 @@ body {
 	background-color: #f8f9fa;
 	/* Light gray background */
 }
+
+
+.overlay-alert {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1050; /* High z-index to appear above other elements */
+	width: 90%; /* Adjust width as needed */
+	max-width: 500px;
+}

@@ -1,0 +1,112 @@
+{% extends "layout.html"%}
+
+{% block content %}
+
+
+<div class="row justify-content-center">
+	<div class="col-lg-8 mt-4 mb-4">
+		<div class="card p-3 shadow-sm">
+			<div class="row">
+				<h1 class="text-center">Departments</h1>
+				<a href="{{ url_for('add_department') }}"><button type="button" class="btn btn-info btn-md">Add
+						New Department</button></a>
+				{% if url_for('add_department') == request.path %}
+				<div class="row justify-content-center">
+					<div class="col-lg-8 mt-4 mb-4">
+						<div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 w-50"
+							role="alert">
+							<a href="{{ url_for('departments')}} "><button type="button" class="btn-close"
+									data-bs-dismiss="alert" aria-label="Close"></button></a>
+							<h1 class="text-center">Add New Department</h1>
+							<br>
+							<form method="post" class="justify-content-center text-center">
+								{{ form.hidden_tag()}}
+
+								{{ form.name.label(class="form-label")}}
+								{% if form.name.errors %}
+								{{ form.name(class="form-control is-invalid") }}
+								<div id="validationServer03Feedback" class="invalid-feedback">
+									{% for error in form.name.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% else %}
+								{{ form.name(class="form-control")}}
+								{% endif %}
+								<br>
+								{{ form.submit(class="btn btn-secondary btn-lg")}}
+							</form>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% for department in departments %}
+				<div class="col-md-8 col-lg-12 mt-4 mb-4">
+					<div class="card p-3 shadow-sm">
+						<div class="row align-items-center">
+							<!-- Left Side: User Information -->
+							<div class="col-lg-8 col-12">
+								<a href="{{ url_for('department', id = department.id)}}">
+									<h4 class="mb-1 text-center">{{department.name}} Department</h4>
+								</a>
+								<br>
+								<h5>Department Members: </h5>
+								{% if department.members%}
+								<div class="list-group">
+									{% for member in department.members%}
+									<a href="{{ url_for('user', id = member.id)}}"
+										class="list-group-item list-group-item-action">{{ member.username }} - {{
+										member.rank }}</a>
+									{% endfor%}
+								</div>
+								<br>
+								<h5>Number of Members: {{ department.members|length }}</h5>
+
+								{% else %}
+								<p> There is no members in this department</p>
+								{% endif %}
+								<br>
+								<h5>Department Devices: </h5>
+								{% if department.devices%}
+								<div class="list-group">
+									{% for device in department.devices%}
+									<a href="{{url_for('device', id = device.id)}}"
+										class="list-group-item list-group-item-action">{{
+										device.name }}</a>
+									{% endfor%}
+								</div>
+								<br>
+								<h5>Number of devices: {{ department.devices|length }}</h5>
+								{% else %}
+								<p>There is no devices</p>
+								{# {{ url_for('add_device', department_id=department.id) }} #}
+								<a href="#"><button type="button" class="btn btn-info btn-sm">Add
+										Devices</button></a>
+								{% endif%}
+
+								<br>
+								<hr>
+								<div>
+									{# {{ url_for('update_department', id = department.id)}} #}
+									<a href="#"><button type="button"
+											class="btn btn-warning btn-custom">Update Department</button></a>
+									{# {{ url_for('delete_department', id = department.id)}} #}
+									<a href="#"><button type="button"
+											class="btn btn-danger custom-button">Delete Department</button></a>
+								</div>
+							</div>
+							<!-- Right Side: User Photo -->
+							<div class="col-lg-4 text-center">
+								<img src="{{ url_for('static', filename='images/profile.jpg')}}" alt="User Photo"
+									class="rounded-photo">
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+	{% endblock%}

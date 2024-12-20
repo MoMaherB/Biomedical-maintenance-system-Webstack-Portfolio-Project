@@ -1,0 +1,32 @@
+{% extends "layout.html"%}
+
+{% block content %}
+
+<div class="row justify-content-center">
+	{% for user in users %}
+	<div class="col-md-8 col-lg-8 mt-4 mb-4">
+		<div class="card p-3 shadow-sm">
+			<div class="row align-items-center">
+				<!-- Left Side: User Information -->
+				<div class="col-md-8 col-12">
+					<a href=" {{url_for('user', id=user.id) }}">
+						<h4 class="mb-1">{{user.username}}</h4>
+					</a>
+					<p class="text-muted mb-1">Email: {{user.email}}</p>
+					<p class="text-muted mb-1">Role: {{user.rank}}</p>
+					<p class="text-muted mb-1">Joined: Jan 1, 2024</p>
+					<p class="text-muted mb-1">Department: <a href="#">{{user.department.name}}</a>
+					</p>
+				</div>
+				<!-- Right Side: User Photo -->
+				<div class="col-md-4 col-12 text-center">
+					<img src="{{ url_for('static', filename='images/profile.jpg')}}" alt="User Photo"
+						class="rounded-photo">
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock%}

@@ -1,0 +1,77 @@
+{% extends "layout.html"%}
+
+{% block content %}
+<br>
+
+<div class="row justify-content-center">
+	<div class="col-md-8 col-lg-8 mt-4 mb-4">
+		<div class="card p-3 shadow-sm">
+			<div class="row">
+				<div class="col-md-8 col-lg-12 mt-4 mb-4">
+					<div class="card p-3 shadow-sm">
+						<div class="row align-items-center">
+						<a href="{{ url_for('department', id = department.id)}}">
+									<h3 class="mb-1 text-center">{{department.name}}</h3>
+								</a>
+							<!-- Left Side: User Information -->
+							<div class="col-lg-8 col-12">
+								<br>
+								<h5>Department Members: </h5>
+								{% if department.members%}
+								<div class="list-group">
+									{% for member in department.members%}
+									<a href="{{ url_for('user', id = member.id)}}"
+										class="list-group-item list-group-item-action">{{ member.username }} - {{
+										member.rank }}</a>
+									{% endfor%}
+								</div>
+								<br>
+								<h5>Number of Members: {{ department.members|length }}</h5>
+
+								{% else %}
+								<p> There is no members in this department</p>
+								{% endif %}
+								<br>
+								<h5>Department Devices: </h5>
+								{% if department.devices%}
+								<div class="list-group">
+									{% for device in department.devices%}
+									<a href="{{url_for('device', id = device.id)}}"
+										class="list-group-item list-group-item-action">{{
+										device.name }}</a>
+									{% endfor%}
+								</div>
+								<br>
+								<h5>Number of devices: {{ department.devices|length }}</h5>
+								{% else %}
+								<p>There is no devices</p>
+								<a href="{{ url_for('devices')}}"><button type="button" class="btn btn-info btn-sm">Add
+										Devices</button></a>
+								{% endif%}
+
+								<br>
+								<hr>
+								<div>
+									<a href="{{ url_for('add_device', department_id = department.id)}}"><button
+											type="button" class="btn btn-info btn-custom">Add new Device</button></a>
+									<a href="{{ url_for('update_department', id = department.id)}}"><button
+											type="button" class="btn btn-warning btn-custom">Update
+											Department</button></a>
+									<a href="{{ url_for('delete_department', id = department.id)}}"><button
+											type="button" class="btn btn-danger custom-button">Delete
+											Department</button></a>
+								</div>
+							</div>
+							<!-- Right Side: User Photo -->
+							<div class="col-lg-4 text-center">
+								<img src="{{ url_for('static', filename='images/profile.jpg')}}" alt="User Photo"
+									class="department-photo">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
