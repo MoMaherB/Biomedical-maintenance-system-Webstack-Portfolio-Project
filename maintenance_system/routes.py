@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from maintenance_system import app, db
-from maintenance_system.models import User , Department
-from maintenance_system.forms import UserForm, DepartmentForm, UpdateDepartmentForm
+from maintenance_system.models import User , Department, Device
+from maintenance_system.forms import UserForm, DepartmentForm, UpdateDepartmentForm, DeviceForm
 
 
 
@@ -10,7 +10,8 @@ def home():
 	return render_template("home.html")
 
 
-#==================User Routes============================
+#======================================User Routes========================================
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -33,14 +34,15 @@ def user(id):
 	user = User.query.get_or_404(id)
 	return render_template('user.html', user=user)
 
-#=================Department Routes==========================
+#====================================Department Routes======================================
+
 
 @app.route('/departments/')
 def departments():
 	departments = Department.query.all()
 	return render_template('departments.html', departments=departments)
 
-@app.route('/departments/<int:id>')
+@app.route('/departments/<int:id>/')
 def department(id):
 	department = Department.query.get_or_404(id)
 
@@ -77,3 +79,34 @@ def update_department(id):
 	elif request.method == 'GET':
 		form.name.data = department.name
 	return render_template('departments.html', form=form, departments=departments)
+
+#====================================Devices Routes======================================
+
+#show all devices of a department and add new device
+@app.route('/departments/<int:department_id>/devices/', methods=['GET'])
+def devices(department_id):
+	department = Department.query.get_or_404(department_id)
+	devices = department.devices
+	return render_template('devices.html', department=department, devices=devices)
+
+@app.route('/dpeartments/<int:department_id>/add_device', methods=['GET', 'POST'])
+def add_device(department_id):
+	department = Department.query.get_or_404(department_id)
+	form = DeviceForm()
+	if form.validate_on_submit():
+		device = Device(name=form.name.data, department_id=department_id)
+		db.session.add(device)
+		db.session.commit()
+		return redirect(url_for('devices', department_id=department_id))
+	return render_template('devices.html', form=form, department=department)
+
+
+
+
+
+
+
+
+@app.route('/<path:path>', methods=['GET'])
+def catch_all(path):
+    return f"Caught route: {path}", 404

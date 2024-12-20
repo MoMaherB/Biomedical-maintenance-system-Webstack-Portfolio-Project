@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-from maintenance_system.models import User, Department
+from maintenance_system.models import User, Department, Device
 
 #=========================================User Forms====================================================
 
@@ -42,3 +42,14 @@ class UpdateDepartmentForm(FlaskForm):
 		department = Department.query.filter_by(name=name.data.strip()).first()
 		if department:
 			raise ValidationError('This department name already exists. Please choose another one.')
+		
+#=========================================Device Forms====================================================
+
+class DeviceForm(FlaskForm):
+	name = StringField('Device Name', validators=[DataRequired(), Length(min=2, max=20)])
+	submit = SubmitField('Add')
+	
+	def validate_name(self, name):
+		device = Device.query.filter_by(name=name.data.strip()).first()
+		if device:
+			raise ValidationError('This device name already exists. Please choose another one.')

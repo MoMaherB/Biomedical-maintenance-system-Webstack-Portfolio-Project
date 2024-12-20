@@ -7,17 +7,18 @@
 	<div class="col-lg-8 mt-4 mb-4">
 		<div class="card p-3 shadow-sm">
 			<div class="row">
-				<h1 class="text-center">Departments</h1>
-				<a href="{{ url_for('add_department') }}"><button type="button" class="btn btn-info btn-md">Add
-						New Department</button></a>
-				{% if url_for('add_department') == request.path %}
+				<h1 class="text-center">{{ department.name }} Devices</h1>
+				<a href="{{ url_for('add_device', department_id = department.id) }}"><button type="button"
+						class="btn btn-info btn-md">Add
+						New Device</button></a>
+				{% if url_for('add_device', department_id = department.id) == request.path %}
 				<div class="row justify-content-center">
 					<div class="col-lg-8 mt-4 mb-4">
 						<div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 w-50"
 							role="alert">
-							<a href="{{ url_for('departments')}} "><button type="button" class="btn-close"
-									data-bs-dismiss="alert" aria-label="Close"></button></a>
-							<h1 class="text-center">Add New Department</h1>
+							<a href="{{ url_for('devices', department_id = department.id)}} "><button type="button"
+									class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></a>
+							<h1 class="text-center">Add New Device</h1>
 							<br>
 							<form method="post" class="justify-content-center text-center">
 								{{ form.hidden_tag()}}
@@ -40,8 +41,8 @@
 					</div>
 				</div>
 				{% endif %}
-				{% for department in departments %}
-				{% if url_for('update_department', id=department.id) == request.path %}
+				{% for device in devices %}
+				{# {% if url_for('update_department', id=department.id) == request.path %}
 				<div class="row justify-content-center">
 					<div class="col-lg-8 mt-4 mb-4">
 						<div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 w-50"
@@ -70,60 +71,25 @@
 						</div>
 					</div>
 				</div>
-				{% endif %}
+				{% endif %} #}
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<div class="card p-3 shadow-sm">
 						<div class="row align-items-center">
 							<!-- Left Side: User Information -->
 							<div class="col-lg-8 col-12">
-								<a href="{{ url_for('devices', department_id = department.id)}}">
-									<h4 class="mb-1 text-center">{{department.name}} Department</h4>
+								{# {{ url_for('departments', id = department.id)}} #}
+								<a href="#">
+									<h4 class="mb-1 text-center">{{device.name}} Device</h4>
 								</a>
-								<br>
-								<h5>Department Members: </h5>
-								{% if department.members%}
-								<div class="list-group">
-									{% for member in department.members%}
-									<a href="{{ url_for('user', id = member.id)}}"
-										class="list-group-item list-group-item-action">{{ member.username }} - {{
-										member.rank }}</a>
-									{% endfor%}
-								</div>
-								<br>
-								<h5>Number of Members: {{ department.members|length }}</h5>
-
-								{% else %}
-								<p> There is no members in this department</p>
-								{% endif %}
-								<br>
-								<h5>Department Devices: </h5>
-								{% if department.devices%}
-								<div class="list-group">
-									{% for device in department.devices%}
-									{# {{url_for('device', id = device.id)}} #}
-									<a href="#"
-										class="list-group-item list-group-item-action">{{
-										device.name }}</a>
-									{% endfor%}
-								</div>
-								<br>
-								<h5>Number of devices: {{ department.devices|length }}</h5>
-								{% else %}
-								<p>There is no devices</p>
-								{# {{ url_for('add_device', department_id=department.id) }} #}
-								<a href="#"><button type="button" class="btn btn-info btn-sm">Add
-										Devices</button></a>
-								{% endif%}
-
 								<br>
 								<hr>
 								<div>
-									<a href="{{ url_for('update_department', id = department.id)}}"><button
-											type="button" class="btn btn-warning btn-custom mt-1">Update
-											Department</button></a>
-									<a href="{{ url_for('delete_department', id = department.id)}}"><button
-											type="button" class="btn btn-danger custom-button mt-1">Delete
-											Department</button></a>
+									{# {{ url_for('update_department', id = department.id)}} #}
+									<a href="#"><button type="button" class="btn btn-warning btn-custom mt-1">Update
+											Device</button></a>
+									{# {{ url_for('delete_department', id = department.id)}} #}
+									<a href="#"><button type="button" class="btn btn-danger custom-button mt-1">Delete
+											Device</button></a>
 								</div>
 							</div>
 							<!-- Right Side: User Photo -->
