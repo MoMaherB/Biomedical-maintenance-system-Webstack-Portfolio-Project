@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from maintenance_system import app, db
 from maintenance_system.models import User , Department
-from maintenance_system.forms import UserForm, DepartmentForm
+from maintenance_system.forms import UserForm, DepartmentForm, UpdateDepartmentForm
 
 
 
@@ -35,7 +35,7 @@ def user(id):
 
 #=================Department Routes==========================
 
-@app.route('/departments')
+@app.route('/departments/')
 def departments():
 	departments = Department.query.all()
 	return render_template('departments.html', departments=departments)
@@ -44,7 +44,7 @@ def departments():
 def department(id):
 	department = Department.query.get_or_404(id)
 
-	render_template('department.html',department=department )
+	return render_template('department.html',department=department )
 
 @app.route('/add_department', methods=['GET', 'POST'])
 def add_department():
@@ -56,4 +56,24 @@ def add_department():
 		db.session.commit()
 		return redirect(url_for('departments'))
 	
+	return render_template('departments.html', form=form, departments=departments)
+
+@app.route('/delete_department/<int:id>')
+def delete_department(id):
+	department = Department.query.get_or_404(id)
+	db.session.delete(department)
+	db.session.commit()
+	return redirect(url_for('departments'))
+
+@app.route('/update_department/<int:id>', methods=['GET', 'POST'])
+def update_department(id):
+	departments = Department.query.all()
+	department = Department.query.get_or_404(id)
+	form = UpdateDepartmentForm()
+	if form.validate_on_submit():
+		department.name = form.name.data
+		db.session.commit()
+		return redirect(url_for('departments'))
+	elif request.method == 'GET':
+		form.name.data = department.name
 	return render_template('departments.html', form=form, departments=departments)

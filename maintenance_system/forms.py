@@ -33,3 +33,12 @@ class DepartmentForm(FlaskForm):
 		department = Department.query.filter_by(name=name.data.strip()).first()
 		if department:
 			raise ValidationError('This department name already exists. Please choose another one.')
+		
+class UpdateDepartmentForm(FlaskForm):
+	name = StringField('Department Name', validators=[DataRequired(), Length(min=2, max=20)])
+	submit = SubmitField('Update')
+	
+	def validate_name(self, name):
+		department = Department.query.filter_by(name=name.data.strip()).first()
+		if department:
+			raise ValidationError('This department name already exists. Please choose another one.')
