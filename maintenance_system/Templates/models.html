@@ -8,8 +8,9 @@
 		<div class="card p-3 shadow-sm">
 			<div class="row">
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
-					<a href="{{ url_for('device', device_id = device.id) }}">
-						<h1 class="text-center">{{ device.name }} Models</h1>
+					<h1 class="text-center">{{ device.name }}</h1>
+					<a href="{{ url_for('devices', department_id=device.department.id) }}" class="anchor-custom">
+						<h5 class="text-center">{{device.department.name}} Department</h5>
 					</a>
 					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
 						data-bs-target="#addNewModel">Add
@@ -21,9 +22,22 @@
 						<div class="row align-items-center">
 							<!-- Left Side: User Information -->
 							<div class="col-lg-8 col-12">
-								<a href="{{ url_for('device', device_id = device.id)}}">
-									<h4 class="mb-1 text-center">{{model.name}} Model</h4>
+								<a href="{{ url_for('machines', model_id = model.id)}}" class="anchor-custom">
+									<h4 class="mb-1 text-center">{{model.name}}</h4>
 								</a>
+								{% if models.machines%}
+								<div class="list-group">
+									{% for machine in model.machines%}
+									{# {{url_for('device', id = device.id)}} #}
+									<a href="" class="list-group-item list-group-item-action">{{
+										machine.serial_number }}</a>
+									{% endfor%}
+								</div>
+								<br>
+								<h5>Number of machines: {{ device.models|length }}</h5>
+								{% else %}
+								<p>There is no machines</p>
+								{% endif%}
 								<br>
 								<hr>
 								<div>

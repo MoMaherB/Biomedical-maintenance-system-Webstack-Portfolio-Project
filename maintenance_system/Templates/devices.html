@@ -8,8 +8,8 @@
 		<div class="card p-3 shadow-sm">
 			<div class="row">
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
-					<a href="{{ url_for('department', id = department.id) }}">
-						<h1 class="text-center">{{ department.name }} Devices</h1>
+					<a href="{{ url_for('department', id = department.id) }}" class="anchor-custom">
+						<h1 class="text-center">{{ department.name }}</h1>
 					</a>
 					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
 						data-bs-target="#addDevice">Add
@@ -21,10 +21,25 @@
 						<div class="row align-items-center">
 							<!-- Left Side: User Information -->
 							<div class="col-lg-8 col-12">
-								<a href="{{ url_for('models', device_id = device.id)}}">
-									<h4 class="mb-1 text-center">{{device.name}} Device</h4>
+								<a href="{{ url_for('models', device_id = device.id)}}" class="anchor-custom">
+									<h4 class="mb-1 text-center">{{ device.name }}</h4>
 								</a>
 								<br>
+								<h5>Department Models: </h5>
+								{% if device.models%}
+								<div class="list-group">
+									{% for model in device.models%}
+									{# {{url_for('device', id = device.id)}} #}
+									<a href="{{ url_for('machines', model_id = model.id)}}"
+										class="list-group-item list-group-item-action">{{
+										model.name }}</a>
+									{% endfor%}
+								</div>
+								<br>
+								<h5>Number of devices: {{ device.models|length }}</h5>
+								{% else %}
+								<p>There is no models</p>
+								{% endif%}
 								<hr>
 								<div>
 									{# {{ url_for('update_department', id = department.id)}} #}

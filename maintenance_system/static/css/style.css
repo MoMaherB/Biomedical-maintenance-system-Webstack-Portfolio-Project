@@ -63,3 +63,16 @@ body {
 	width: 90%; /* Adjust width as needed */
 	max-width: 500px;
 }
+
+
+.anchor-custom {
+	text-decoration: none; /* Removes underline */
+	color: black; /* Sets default color */
+	cursor: pointer; /* Changes cursor to pointer */
+	transition: color 0.3s ease; /* Smooth color transition */
+  }
+  
+  .anchor-custom:hover {
+	color: var(--bs-success); /* Changes color to Bootstrap success color */
+  }
+  

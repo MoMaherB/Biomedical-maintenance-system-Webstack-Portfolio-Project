@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from maintenance_system import app, db
 from maintenance_system.models import User , Department, Device, Model
-from maintenance_system.forms import UserForm, DepartmentForm, DeviceForm, ModelForm
+from maintenance_system.forms import UserForm, DepartmentForm, DeviceForm, ModelForm, MachineForm
 
 
 
@@ -204,6 +204,17 @@ def update_model(model_id):
 			flash('Model name already exists. Please choose another one.', 'danger')
 		
 		return redirect(url_for('models', device_id=model.device_id))
+	
+#======================================Machine Routes========================================
+
+@app.route('/models/<int:model_id>/machines/', methods=['GET'])
+def machines(model_id):
+	model = Model.query.get_or_404(model_id)
+	machines = model.machines
+	return render_template('machines.html',
+				model=model, machines=machines)
+
+@app.route('/models/<int:model_id>/add_machine', methods=['GET', 'POST'])
 
 
 @app.route('/<path:path>', methods=['GET'])

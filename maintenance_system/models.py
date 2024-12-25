@@ -1,4 +1,5 @@
 from maintenance_system import db
+from datetime import datetime
 
 db.Table('user_task', db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
 db.Column('task_id', db.Integer, db.ForeignKey('task.id')))
@@ -53,18 +54,23 @@ class Model(db.Model):
 db.Table('machine_hospital',
 		db.Column('machine_id', db.Integer, db.ForeignKey('machine.id')),
 		db.Column('hospital_id', db.Integer, db.ForeignKey('hospital.id')))
-	
+
+db.Table('machine_task',
+		db.Column('machine_id', db.Integer, db.ForeignKey('machine.id')),
+		db.Column('task_id', db.Integer, db.ForeignKey('task.id')))
+
 class Machine(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	serial_number = db.Column(db.String(80), unique=True)
 	installation_date = db.Column(db.DateTime)
-	contract_type = db.Column(db.String(80))
+	contract_type = db.Column(db.Integer, default=int(0)) # 0: warranty, 1: maintenance, 2: none
+	contract_name = db.Column(db.String(80))
 	contract_start_date = db.Column(db.DateTime)
 	contract_end_date = db.Column(db.DateTime)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	model_id = db.Column(db.Integer, db.ForeignKey('model.id'))
-	last_maintenance_date = db.Column(db.DateTime)
 	hospitals = db.relationship('Hospital', secondary='machine_hospital', backref='machines', lazy='dynamic')
+	tasks = db.relationship('Task', secondary='machine_task', backref='machines', lazy='dynamic')
 	def __repr__(self):
 		return f'<Machine: {self.serial_number}>'
 	
@@ -78,7 +84,7 @@ class Task(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	task_type = db.Column(db.String(80))
 	status = db.Column(db.Integer, default=int(0)) # 0: not completed, 1: in progress, 2: done
-	open_date = db.Column(db.DateTime)
+	open_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	close_date = db.Column(db.DateTime)
 	description = db.Column(db.String(200))
 	result = db.Column(db.String(200))

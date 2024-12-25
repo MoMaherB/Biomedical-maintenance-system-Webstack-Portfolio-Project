@@ -1,0 +1,82 @@
+{% extends "layout.html"%}
+
+{% block content %}
+
+
+<div class="row justify-content-center">
+	<div class="col-lg-8 mt-4 mb-4">
+		<div class="card p-3 shadow-sm">
+			<div class="row">
+				<div class="col-md-8 col-lg-12 mt-4 mb-4">
+					<h1 class="text-center">{{ model.name }}</h1>
+					<a href="{{ url_for('models', device_id=model.device.department.id) }}" class="anchor-custom">
+						<h4 class="text-center">{{model.device.name}} Device</h4>
+					</a>
+					<a href="{{ url_for('devices', department_id=model.device.department.id) }}" class="anchor-custom">
+						<h6 class="text-center">{{model.device.department.name}} Department</h6>
+					</a>
+					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
+						data-bs-target="#addNewModel">Add
+						New Machine</button>
+				</div>
+				{# {% for machine in machines %} #}
+				<div class="col-md-8 col-lg-12 mt-4 mb-4">
+					<div class="list-group">
+						<a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+							The current link item
+						</a>
+						<a href="#" class="list-group-item list-group-item-action">A second link item</a>
+						<a href="#" class="list-group-item list-group-item-action">A third link item</a>
+						<a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+						<a class="list-group-item list-group-item-action disabled" aria-disabled="true">A
+							disabled link item</a>
+					</div>
+
+				</div>
+				{# {% endfor %} #}
+			</div>
+		</div>
+	</div>
+
+	<!-- Add Model Modal -->
+	<div class="modal fade" id="addNewModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="addNewModelLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="addNewModelLabel">Add
+						New Model</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					{# <form method="POST" action="{{ url_for('add_model', device_id=device.id) }}">
+						{{ form.hidden_tag() }} <!-- CSRF token -->
+
+						<!-- Department Name Field -->
+						{{ form.name.label(class="form-label") }}
+						{% if form.name.errors %}
+						{{ form.name(class="form-control is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.name.errors %}
+							{{ error }}
+							{% endfor %}
+						</div>
+						{% else %}
+						{{ form.name(class="form-control mt-3") }}
+						{% endif %}
+						<br>
+						{{form.manufacturer.label(class="form-label")}}
+						{{form.manufacturer(class="form-control mt-3")}}
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">Add
+								Model</button>
+						</div>
+					</form> #}
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	{% endblock%}

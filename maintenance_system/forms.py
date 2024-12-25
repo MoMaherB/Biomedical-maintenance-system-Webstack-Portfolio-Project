@@ -56,3 +56,8 @@ class ModelForm(FlaskForm):
 		model = Model.query.filter_by(name=name.data.strip()).first()
 		if model:
 			raise ValidationError('This model name already exists. Please choose another one.')
+
+#==========================================Machine Forms====================================================
+
+class MachineForm(FlaskForm):
+	pass
