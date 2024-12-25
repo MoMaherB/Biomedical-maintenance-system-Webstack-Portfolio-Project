@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from maintenance_system import app, db
-from maintenance_system.models import User , Department, Device
-from maintenance_system.forms import UserForm, DepartmentForm, DeviceForm
+from maintenance_system.models import User , Department, Device, Model
+from maintenance_system.forms import UserForm, DepartmentForm, DeviceForm, ModelForm
 
 
 
@@ -112,8 +112,10 @@ def add_device(department_id):
 		flash(f'Device {form.name.data} has been created successfully!', 'success')
 		return redirect(url_for('devices', department_id=department_id))
 	else:
+		department = Department.query.get_or_404(department_id)
+		devices = department.devices
 		flash('Device name already exists. Please choose another one.', 'danger')
-		return redirect(url_for('devices', department_id=department_id))
+		return render_template('devices.html', department=department, devices=devices, form=form)
 
 @app.route('/devices/<int:device_id>')
 def device(device_id):
@@ -147,12 +149,61 @@ def update_device(device_id):
 		
 		return redirect(url_for('devices', department_id=device.department_id))
 
+#====================================Model Routes======================================
+
+@app.route('/devices/<int:device_id>/models/', methods=['GET'])
+def models(device_id):
+	form = ModelForm()
+	device = Device.query.get_or_404(device_id)
+	models = device.models
+	return render_template('models.html', device=device, models=models, form=form)
+
+@app.route('/devices/<int:device_id>/add_model', methods=['GET', 'POST'])
+def add_model(device_id):
+	device = Device.query.get_or_404(device_id)
+	models = device.models
+	form = ModelForm()
+	if request.method == 'GET':
+		return redirect(url_for('models', device_id=device_id))
+	elif form.validate_on_submit():
+		New_model = Model(name=form.name.data, manufacturer=form.manufacturer.data, device_id=device_id)
+		db.session.add(New_model)
+		db.session.commit()
+		flash(f'Model {form.name.data} has been created successfully!', 'success')
+		return redirect(url_for('models', device_id=device_id))
+	else:
+		flash('Device name already exists. Please choose another one.', 'danger')
+		return render_template('models.html', device=device, models=models, form=form)
+	
+@app.route('/delete_model/<int:model_id>', methods=['POST'])
+def delete_model(model_id):
+	model = Model.query.get_or_404(model_id)
+	device = model.device
+	db.session.delete(model)
+	db.session.commit()
+	flash(f'Model {model.name} has been deleted successfully!', 'success')
+	return redirect(url_for('models', device_id=device.id))
 
 
-
-
-
-
+@app.route('/update_model/<int:model_id>', methods=['GET', 'POST'])
+def update_model(model_id):
+	model = Model.query.get_or_404(model_id)
+	form = ModelForm()
+	if request.method == 'GET':
+		return redirect(url_for('models', device_id=model.device_id))
+	elif form.validate_on_submit():
+		model.name = form.name.data
+		model.manufacturer = form.manufacturer.data
+		db.session.commit()
+		flash(f'Model { model.name }has been updated successfully!', 'success')
+		return redirect(url_for('models', device_id=model.device_id))
+	else:
+		if form.name.data == model.name:
+			flash('No changes detected. Nothing to update.', 'info')
+		else:
+			flash('Model name already exists. Please choose another one.', 'danger')
+		
+		return redirect(url_for('models', device_id=model.device_id))
 
 
 @app.route('/<path:path>', methods=['GET'])

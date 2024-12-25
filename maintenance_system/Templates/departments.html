@@ -77,44 +77,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- Add Department Modal -->
-				<div class="modal fade" id="addDepartment" data-bs-backdrop="static" data-bs-keyboard="false"
-					tabindex="-1" aria-labelledby="addDepartmentLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h1 class="modal-title fs-5" id="addDepartmentLabel">Add
-									New Department</h1>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<form method="POST" action="{{ url_for('add_department') }}">
-									{{ form.hidden_tag() }} <!-- CSRF token -->
-
-									<!-- Department Name Field -->
-									{{ form.name.label(class="form-label") }}
-									{% if form.name.errors %}
-									{{ form.name(class="form-control is-invalid") }}
-									<div class="invalid-feedback">
-										{% for error in form.name.errors %}
-										{{ error }}
-										{% endfor %}
-									</div>
-									{% else %}
-									{{ form.name(class="form-control mt-3") }}
-									{% endif %}
-									<div class="modal-footer">
-										<button type="submit" class="btn btn-primary">Add
-											Department</button>
-									</div>
-								</form>
-
-
-							</div>
-						</div>
-					</div>
-				</div>
 				<!-- Update Department Modal -->
 				<div class="modal fade" id="updateDepartment{{ department.id }}" data-bs-backdrop="static"
 					data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateDepartmentLabel" aria-hidden="true">
@@ -177,6 +139,45 @@
 					</div>
 				</div>
 				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Add Department Modal -->
+<div class="modal fade" id="addDepartment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+	aria-labelledby="addDepartmentLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="addDepartmentLabel">Add
+					New Department</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="{{ url_for('add_department') }}">
+					{{ form.hidden_tag() }} <!-- CSRF token -->
+
+					<!-- Department Name Field -->
+					{{ form.name.label(class="form-label") }}
+					{% if form.name.errors %}
+					{{ form.name(class="form-control is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.name.errors %}
+						{{ error }}
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.name(class="form-control mt-3") }}
+					{% endif %}
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">Add
+							Department</button>
+					</div>
+				</form>
+
+
 			</div>
 		</div>
 	</div>

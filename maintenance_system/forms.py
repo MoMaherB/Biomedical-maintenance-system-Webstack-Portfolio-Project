@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-from maintenance_system.models import User, Department, Device
+from maintenance_system.models import User, Department, Device, Model
 
 #=========================================User Forms====================================================
 
@@ -44,3 +44,15 @@ class DeviceForm(FlaskForm):
 		device = Device.query.filter_by(name=name.data.strip()).first()
 		if device:
 			raise ValidationError('This device name already exists. Please choose another one.')
+		
+#=========================================Model Forms====================================================
+
+class ModelForm(FlaskForm):
+	name = StringField('Model Name', validators=[DataRequired(), Length(min=2, max=20)])
+	manufacturer = StringField('Manufacturer', validators=[DataRequired(), Length(min=2, max=20)])
+	submit = SubmitField('Add')
+	
+	def validate_name(self, name):
+		model = Model.query.filter_by(name=name.data.strip()).first()
+		if model:
+			raise ValidationError('This model name already exists. Please choose another one.')

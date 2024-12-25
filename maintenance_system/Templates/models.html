@@ -8,56 +8,56 @@
 		<div class="card p-3 shadow-sm">
 			<div class="row">
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
-					<a href="{{ url_for('department', id = department.id) }}">
-						<h1 class="text-center">{{ department.name }} Devices</h1>
+					<a href="{{ url_for('device', device_id = device.id) }}">
+						<h1 class="text-center">{{ device.name }} Models</h1>
 					</a>
 					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
-						data-bs-target="#addDevice">Add
-						New Device</button>
+						data-bs-target="#addNewModel">Add
+						New Model</button>
 				</div>
-				{% for device in devices %}
+				{% for model in models %}
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<div class="card p-3 shadow-sm">
 						<div class="row align-items-center">
 							<!-- Left Side: User Information -->
 							<div class="col-lg-8 col-12">
-								<a href="{{ url_for('models', device_id = device.id)}}">
-									<h4 class="mb-1 text-center">{{device.name}} Device</h4>
+								<a href="{{ url_for('device', device_id = device.id)}}">
+									<h4 class="mb-1 text-center">{{model.name}} Model</h4>
 								</a>
 								<br>
 								<hr>
 								<div>
 									{# {{ url_for('update_department', id = department.id)}} #}
 									<button type="button" class="btn btn-warning btn-custom mt-1" data-bs-toggle="modal"
-										data-bs-target="#updateDevice{{ device.id }}">Update
-										Device</button>
+										data-bs-target="#updateModel{{ model.id }}">Update
+										Model</button>
 									<button type="button" class="btn btn-danger custom-button mt-1"
-										data-bs-toggle="modal" data-bs-target="#deleteDevice{{ device.id }}">Delete
-										Device</button>
+										data-bs-toggle="modal" data-bs-target="#deleteModel{{ model.id }}">Delete
+										Model</button>
 								</div>
 							</div>
 							<!-- Right Side: User Photo -->
-							<div class="col-lg-4 text-center mt-1">
+							<div class="col-lg-4 text-center mt-1 mr-3">
 								<img src="{{ url_for('static', filename='images/profile.jpg')}}" alt="User Photo"
-									class="rounded-photo mt-2">
+									class="department-photo mt-2">
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- Update Department Modal -->
-				<div class="modal fade" id="updateDevice{{ device.id }}" data-bs-backdrop="static"
-					data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateDevice{{ device.id }}Label"
+				<div class="modal fade" id="updateModel{{ model.id }}" data-bs-backdrop="static"
+					data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateModel{{ model.id }}Label"
 					aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h1 class="modal-title fs-5" id="updateDevice{{ device.id }}Label">Update
-									Device</h1>
+								<h1 class="modal-title fs-5" id="updateModel{{ model.id }}Label">Update
+									Model</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal"
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('update_device', device_id = device.id)}}">
+								<form method="POST" action="{{ url_for('update_model', model_id = model.id)}}">
 									{{ form.hidden_tag() }} <!-- CSRF token -->
 
 									<!-- Department Name Field -->
@@ -70,12 +70,14 @@
 										{% endfor %}
 									</div>
 									{% else %}
-									{{ form.name(class="form-control mt-3", value= device.name )
-									}}
+									{{ form.name(class="form-control mt-3", value=model.name) }}
 									{% endif %}
+									<br>
+									{{form.manufacturer.label(class="form-label")}}
+									{{form.manufacturer(class="form-control mt-3", value=model.manufacturer)}}
 									<div class="modal-footer">
 										<button type="submit" class="btn btn-primary">Update
-											Department</button>
+											Model</button>
 									</div>
 								</form>
 							</div>
@@ -83,24 +85,24 @@
 					</div>
 				</div>
 				<!-- Delete Department Modal -->
-				<div class="modal fade" id="deleteDevice{{ device.id }}" data-bs-keyboard="false" tabindex="-1"
-					aria-labelledby="deleteDeviceLabel" aria-hidden="true">
+				<div class="modal fade" id="deleteModel{{ model.id }}" data-bs-keyboard="false" tabindex="-1"
+					aria-labelledby="deleteModelLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h1 class="modal-title fs-5" id="deleteDeviceLabel">Are you sure
+								<h1 class="modal-title fs-5" id="deleteModelLabel">Are you sure
 									that you want to
 									delete
-									{{device.name}} device and all models and
+									{{model.name}} model and
 									machines inside it ?
 								</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal"
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('delete_device', device_id=device.id) }}">
+								<form method="POST" action="{{ url_for('delete_model', model_id=model.id) }}">
 									<button type="submit" class="btn btn-danger mt-3">Delete {{
-										device.name }} Device !!!</button>
+										model.name }} Model !!!</button>
 								</form>
 							</div>
 						</div>
@@ -111,18 +113,18 @@
 		</div>
 	</div>
 
-	<!-- Add Department Modal -->
-	<div class="modal fade" id="addDevice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-		aria-labelledby="addDeviceLabel" aria-hidden="true">
+	<!-- Add Model Modal -->
+	<div class="modal fade" id="addNewModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="addNewModelLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="addDeviceLabel">Add
-						New Department</h1>
+					<h1 class="modal-title fs-5" id="addNewModelLabel">Add
+						New Model</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form method="POST" action="{{ url_for('add_device', department_id=department.id) }}">
+					<form method="POST" action="{{ url_for('add_model', device_id=device.id) }}">
 						{{ form.hidden_tag() }} <!-- CSRF token -->
 
 						<!-- Department Name Field -->
@@ -137,12 +139,14 @@
 						{% else %}
 						{{ form.name(class="form-control mt-3") }}
 						{% endif %}
+						<br>
+						{{form.manufacturer.label(class="form-label")}}
+						{{form.manufacturer(class="form-control mt-3")}}
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">Add
-								Device</button>
+								Model</button>
 						</div>
 					</form>
-
 
 				</div>
 			</div>

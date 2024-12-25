@@ -13,9 +13,9 @@ body {
 }
 
 .department-photo {
-	width: 250px;
+	width: 240px;
 	/* Adjust the size as needed */
-	height: 250px;
+	height: 240px;
 	object-fit: cover;
 	border-radius: 20%;
 	border: 3px solid #ddd;
