@@ -1,0 +1,97 @@
+{% extends "layout.html"%}
+
+{% block content %}
+<br>
+<br>
+<h1 class="text-center">Add new machine</h1>
+<div class="row justify-content-center">
+	<div class="col-md-5 mb-4 mt-4">
+		<div class="card p-3 shadow-sm">
+			<form method="post">
+				{{ form.hidden_tag()}}
+				{{ form.serial_number.label(class="form-label")}}
+				{% if form.serial_number.errors %}
+				{{ form.serial_number(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.serial_number.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.serial_number(class="form-control")}}
+				{% endif %}
+				<br>
+
+				{{ form.installation_date.label(class="form-label")}}
+				{% if form.installation_date.errors %}
+				{{ form.installation_date(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.installation_date.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.installation_date(class="form-control")}}
+				{% endif %}
+				<br>
+
+				{{ form.contract_type.label(class="form-label")}}
+				{% if form.contract_type.errors %}
+				{{ form.contract_type(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.contract_type.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.contract_type(class="form-control")}}
+				{% endif %}
+				<br>
+
+				{{ form.contract_name.label(class="form-label")}}
+				{% if form.contract_name.errors %}
+				{{ form.contract_name(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.contract_name.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.contract_name(class="form-control")}}
+				{% endif %}
+				<br>
+				{{ form.contract_start_date.label(class="form-label")}}
+				{% if form.contract_start_date.errors %}
+				{{ form.contract_start_date(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.contract_start_date.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.contract_start_date(class="form-control")}}
+				{% endif %}
+				<br>
+
+				{{ form.contract_end_date.label(class="form-label")}}
+				{% if form.contract_end_date.errors %}
+				{{ form.contract_end_date(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.contract_end_date.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.contract_end_date(class="form-control", placeholder=None)}}
+				{% endif %}
+				<br>
+
+				{{ form.submit(class="btn btn-primary")}}
+
+			</form>
+		</div>
+
+	</div>
+</div>
+
+{% endblock%}

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-from maintenance_system.models import User, Department, Device, Model
+from wtforms.fields import StringField, PasswordField, SubmitField, DateField, SelectField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Optional
+from maintenance_system.models import User, Department, Device, Model, Machine
 
 #=========================================User Forms====================================================
 
@@ -58,6 +58,24 @@ class ModelForm(FlaskForm):
 			raise ValidationError('This model name already exists. Please choose another one.')
 
 #==========================================Machine Forms====================================================
+class OptionalDateField(DateField):
+    def process_formdata(self, valuelist):
+        if valuelist:
+            if valuelist[0] == '':
+                self.data = None
+            else:
+                super().process_formdata(valuelist)
 
 class MachineForm(FlaskForm):
-	pass
+	serial_number = StringField('Serial Number', validators=[DataRequired(), Length(min=4, max=20)])
+	installation_date = DateField('Installation Date', format='%Y-%m-%d', validators=[DataRequired()])
+	contract_type = SelectField('Contract Type', choices=[(0, 'Warranty'), (1, 'Maintenance'), (2, 'None')], validators=[DataRequired()])
+	contract_name = StringField('Contract Name', validators=[Length(min=2, max=20)])
+	contract_start_date = DateField('Contract Start Date', format='%Y-%m-%d', validators=[Optional()])
+	contract_end_date = DateField('Contract End Date', format='%Y-%m-%d', validators=[Optional()])
+	submit = SubmitField('Add')
+
+	def validate_serial_number(self, serial_number):
+		machine = Machine.query.filter_by(serial_number=serial_number.data.strip()).first()
+		if machine:
+			raise ValidationError('This serial number already exists. Please choose another one.')

@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from maintenance_system import app, db
-from maintenance_system.models import User , Department, Device, Model
+from maintenance_system.models import User , Department, Device, Model, Machine
 from maintenance_system.forms import UserForm, DepartmentForm, DeviceForm, ModelForm, MachineForm
 
 
@@ -215,6 +215,27 @@ def machines(model_id):
 				model=model, machines=machines)
 
 @app.route('/models/<int:model_id>/add_machine', methods=['GET', 'POST'])
+def add_machine(model_id):
+	model = Model.query.get_or_404(model_id)
+	form = MachineForm()
+
+	if form.validate_on_submit():
+		machine = Machine(serial_number=form.serial_number.data,
+					model_id=model_id,
+					installation_date=form.installation_date.data,
+					contract_type=form.contract_type.data,
+					contract_name=form.contract_name.data,
+					contract_start_date=form.contract_start_date.data,
+					contract_end_date=form.contract_end_date.data)
+		db.session.add(machine)
+		db.session.commit()
+		flash(f'Machine  number {form.serial_number.data} for {model.name} {model.device.name} has been created successfully!', 'success')
+		return redirect(url_for('machines', model_id=model_id))
+
+	return render_template('add_machine.html', model=model, form=form)
+	
+
+
 
 
 @app.route('/<path:path>', methods=['GET'])
