@@ -51,9 +51,9 @@ class Model(db.Model):
 	def __repr__(self):
 		return f'<Model: {self.name}>'
 	
-db.Table('machine_hospital',
-		db.Column('machine_id', db.Integer, db.ForeignKey('machine.id')),
-		db.Column('hospital_id', db.Integer, db.ForeignKey('hospital.id')))
+# db.Table('machine_hospital',
+# 		db.Column('machine_id', db.Integer, db.ForeignKey('machine.id')),
+# 		db.Column('hospital_id', db.Integer, db.ForeignKey('hospital.id')))
 
 db.Table('machine_task',
 		db.Column('machine_id', db.Integer, db.ForeignKey('machine.id')),
@@ -69,7 +69,7 @@ class Machine(db.Model):
 	contract_end_date = db.Column(db.DateTime)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	model_id = db.Column(db.Integer, db.ForeignKey('model.id'))
-	hospitals = db.relationship('Hospital', secondary='machine_hospital', backref='machines', lazy='dynamic')
+	hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.id'))
 	tasks = db.relationship('Task', secondary='machine_task', backref='machines', lazy='dynamic')
 	def __repr__(self):
 		return f'<Machine: {self.serial_number}>'
@@ -79,6 +79,7 @@ class Hospital(db.Model):
 	name = db.Column(db.String(80), unique=True)
 	governorate = db.Column(db.String(80))
 	tasks = db.relationship('Task', backref='hospital', lazy=True)
+	machines = db.relationship('Machine', backref='hospital', lazy=True)
 
 class Task(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

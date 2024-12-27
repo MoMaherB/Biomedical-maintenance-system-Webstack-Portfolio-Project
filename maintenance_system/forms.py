@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField, DateField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Optional
-from maintenance_system.models import User, Department, Device, Model, Machine
+from maintenance_system.models import User, Department, Device, Model, Machine, Hospital
 
 #=========================================User Forms====================================================
 
@@ -79,3 +79,15 @@ class MachineForm(FlaskForm):
 		machine = Machine.query.filter_by(serial_number=serial_number.data.strip()).first()
 		if machine:
 			raise ValidationError('This serial number already exists. Please choose another one.')
+
+
+#=========================================Hospital Forms====================================================
+class HospitalForm(FlaskForm):
+	name = StringField('Hospital Name', validators=[DataRequired(), Length(min=2, max=50)])
+	governorate = StringField('Governorate', validators=[DataRequired(), Length(min=5, max=50)])
+	submit = SubmitField('Add')
+
+	def validate_name(self, name):
+		hospital = Hospital.query.filter_by(name=name.data.strip()).first()
+		if hospital:
+			raise ValidationError('This hospital name already exists. Please choose another one.')			

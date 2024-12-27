@@ -1,0 +1,49 @@
+{% extends "layout.html"%}
+
+{% block content %}
+<br>
+<br>
+<h1 class="text-center">{{ form_name }} Hospital</h1>
+<div class="row justify-content-center">
+	<div class="col-md-5 mb-4 mt-4">
+		<div class="card p-3 shadow-sm">
+			<form method="post">
+				{{ form.hidden_tag()}}
+				
+				{{ form.name.label(class="form-label")}}
+				{% if form.name.errors %}
+				{{ form.name(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.name.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.name(class="form-control")}}
+				{% endif %}
+				<br>
+
+				{{ form.governorate.label(class="form-label")}}
+				{% if form.name.errors %}
+				{{ form.governorate(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.governorate.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.governorate(class="form-control")}}
+				{% endif %}
+				<br>
+
+				
+
+				{{ form.submit(class="btn btn-primary")}}
+
+			</form>
+		</div>
+
+	</div>
+</div>
+
+{% endblock%}
