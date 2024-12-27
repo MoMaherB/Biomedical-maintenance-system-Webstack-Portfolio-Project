@@ -218,7 +218,7 @@ def machines(model_id):
 def add_machine(model_id):
 	model = Model.query.get_or_404(model_id)
 	form = MachineForm()
-
+	name = 'Add'
 	if form.validate_on_submit():
 		machine = Machine(serial_number=form.serial_number.data,
 					model_id=model_id,
@@ -232,9 +232,46 @@ def add_machine(model_id):
 		flash(f'Machine  number {form.serial_number.data} for {model.name} {model.device.name} has been created successfully!', 'success')
 		return redirect(url_for('machines', model_id=model_id))
 
-	return render_template('add_machine.html', model=model, form=form)
-	
+	return render_template('add_machine.html', model=model, form=form, name=name)
 
+@app.route('/machines/<int:machine_id>')
+def machine(machine_id):
+	machine = Machine.query.get_or_404(machine_id)
+	return render_template('machine.html', machine=machine)
+
+@app.route('/delete_machine/<int:machine_id>', methods=['POST'])
+def delete_machine(machine_id):
+	machine = Machine.query.get_or_404(machine_id)
+	model = machine.model
+	db.session.delete(machine)
+	db.session.commit()
+	flash(f'Machine {machine.serial_number} has been deleted successfully!', 'success')
+	return redirect(url_for('machines', model_id=model.id))
+	
+@app.route('/update_machine/<int:machine_id>', methods=['GET', 'POST'])
+def update_machine(machine_id):
+	machine = Machine.query.get_or_404(machine_id)
+	form = MachineForm()
+	name = 'Update'
+	if form.validate_on_submit() or (request.method == 'POST' and form.serial_number.data == machine.serial_number):
+		machine.serial_number = form.serial_number.data
+		machine.installation_date = form.installation_date.data
+		machine.contract_type = form.contract_type.data
+		machine.contract_name = form.contract_name.data
+		machine.contract_start_date = form.contract_start_date.data
+		machine.contract_end_date = form.contract_end_date.data
+		db.session.commit()
+		flash('Machine has been updated successfully!', 'success')
+		return redirect(url_for('machines', model_id=machine.model_id))
+	form.serial_number.data = machine.serial_number
+	form.installation_date.data = machine.installation_date
+	form.contract_type.data = machine.contract_type
+	form.contract_name.data = machine.contract_name
+	form.contract_start_date.data = machine.contract_start_date
+	form.contract_end_date.data = machine.contract_end_date
+	form.submit.label.text = 'Update'
+	return render_template('add_machine.html', form=form, machine=machine, name=name)
+	
 
 
 

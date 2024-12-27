@@ -23,14 +23,50 @@
 				</div>
 				<div class="list-group">
 					{% for machine in machines %}
-					<a href="#" class="list-group-item list-group-item-action">{{ machine.serial_number }}
-						{{ machine.contract_name}}
-						{{ machine.contract_start_date}}
-						{{ machine.contract_end_date}}
-						{{machine.installation_date}}
-						{% if machine.contract_type == 0 %}
-						this machine in Warranty
-						{% endif %}</a>
+					<div>
+						<a href="#" class="list-group-item list-group-item-action">{{ machine.serial_number }}
+							{{ machine.contract_name}}
+							{{ machine.contract_start_date}}
+							{{ machine.contract_end_date}}
+							{{machine.installation_date}}
+							{% if machine.contract_type == 0 %}
+							this machine in Warranty
+							{% endif %}
+						</a>
+						<div>
+							<button type="button" class="btn btn-sm btn-danger custom-button mt-1"
+								data-bs-toggle="modal" data-bs-target="#deleteMachine{{ machine.id }}">Delete
+								Machine</button>
+							<a href="{{ url_for('update_machine', machine_id=machine.id) }}"><button type="button"
+									class="btn btn-sm btn-warning btn-custom mt-1">Update
+									Machine</button>
+							</a>
+						</div>
+						<br>
+					</div>
+					<div class="modal fade" id="deleteMachine{{ machine.id }}" data-bs-keyboard="false" tabindex="-1"
+						aria-labelledby="deleteMachineLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="deleteMachineLabel">Are you sure
+										that you want to
+										delete
+										{{machine.serial_number}} machine in {{machine.model.name}}
+										{{machine.model.device.name}}?
+									</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form method="POST" action="{{ url_for('delete_machine', machine_id=machine.id) }}">
+										<button type="submit" class="btn btn-danger mt-3">Delete {{
+											machine.name }} Machine !!!</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 					{% endfor %}
 				</div>
 

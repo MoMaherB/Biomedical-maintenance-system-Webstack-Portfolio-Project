@@ -3,7 +3,7 @@
 {% block content %}
 <br>
 <br>
-<h1 class="text-center">Add new machine</h1>
+<h1 class="text-center">{{ name }} machine</h1>
 <div class="row justify-content-center">
 	<div class="col-md-5 mb-4 mt-4">
 		<div class="card p-3 shadow-sm">
@@ -82,7 +82,7 @@
 					{% endfor %}
 				</div>
 				{% else %}
-				{{ form.contract_end_date(class="form-control", placeholder=None)}}
+				{{ form.contract_end_date(class="form-control")}}
 				{% endif %}
 				<br>
 
