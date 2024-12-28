@@ -19,6 +19,10 @@
 							<div class="col-md-8 col-lg-12 mt-4 mb-4">
 								<h4> {{hospital.name}}</h4>
 								<h5> {{hospital.governorate}}</h5>
+								<h6> Machines </h6>
+								{% for machine in hospital.machines%}
+									<p>{{machine.model.name}} - {{machine.serial_number}}</p>
+								{% endfor %}
 								<br>
 								<button type="button" class="btn btn-danger custom-button mt-1" data-bs-toggle="modal"
 									data-bs-target="#deleteHospital{{ hospital.id }}">Delete

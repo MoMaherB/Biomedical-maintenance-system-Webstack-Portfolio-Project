@@ -85,6 +85,25 @@
 				{{ form.contract_end_date(class="form-control")}}
 				{% endif %}
 				<br>
+				<div>
+					{{ form.hospital.label(class="form-label")}}
+					{% if form.hospital.errors %}
+					{{ form.hospital(class="form-control is-invalid") }}
+					<div id="validationServer03Feedback" class="invalid-feedback">
+						{% for error in form.hospital.errors %}
+						{{ error }}
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.hospital(class="form-control")}}
+					{% endif %}
+					<br>
+					<small>Cant find the hospital?</small>
+					<a href="{{ url_for('add_hospital') }}"><button type="button"
+							class="btn btn-sm btn-info btn-custom">Add hospital</button></a>
+
+				</div>
+				<br>
 
 				{{ form.submit(class="btn btn-primary")}}
 

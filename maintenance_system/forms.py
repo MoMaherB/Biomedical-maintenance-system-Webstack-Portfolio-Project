@@ -73,6 +73,7 @@ class MachineForm(FlaskForm):
 	contract_name = StringField('Contract Name', validators=[Length(min=2, max=20)])
 	contract_start_date = DateField('Contract Start Date', format='%Y-%m-%d', validators=[Optional()])
 	contract_end_date = DateField('Contract End Date', format='%Y-%m-%d', validators=[Optional()])
+	hospital = SelectField('Hospital', validators=[DataRequired()] )
 	submit = SubmitField('Add')
 
 	def validate_serial_number(self, serial_number):

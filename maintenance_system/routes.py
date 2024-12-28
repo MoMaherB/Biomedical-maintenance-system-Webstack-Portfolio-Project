@@ -219,6 +219,9 @@ def add_machine(model_id):
 	model = Model.query.get_or_404(model_id)
 	form = MachineForm()
 	name = 'Add'
+	hospitals = Hospital.query.all()
+	choises = [(hospital.id, hospital.name) for hospital in hospitals]
+	form.hospital.choices = choises
 	if form.validate_on_submit():
 		machine = Machine(serial_number=form.serial_number.data,
 					model_id=model_id,
@@ -226,7 +229,8 @@ def add_machine(model_id):
 					contract_type=form.contract_type.data,
 					contract_name=form.contract_name.data,
 					contract_start_date=form.contract_start_date.data,
-					contract_end_date=form.contract_end_date.data)
+					contract_end_date=form.contract_end_date.data,
+					hospital_id = form.hospital.data)
 		db.session.add(machine)
 		db.session.commit()
 		flash(f'Machine  number {form.serial_number.data} for {model.name} {model.device.name} has been created successfully!', 'success')
@@ -253,6 +257,9 @@ def update_machine(machine_id):
 	machine = Machine.query.get_or_404(machine_id)
 	form = MachineForm()
 	name = 'Update'
+	hospitals = Hospital.query.all()
+	choises = [(hospital.id, hospital.name) for hospital in hospitals]
+	form.hospital.choices = choises
 	if form.validate_on_submit() or (request.method == 'POST' and form.serial_number.data == machine.serial_number):
 		machine.serial_number = form.serial_number.data
 		machine.installation_date = form.installation_date.data
@@ -260,6 +267,7 @@ def update_machine(machine_id):
 		machine.contract_name = form.contract_name.data
 		machine.contract_start_date = form.contract_start_date.data
 		machine.contract_end_date = form.contract_end_date.data
+		machine.hospital_id = form.hospital.data
 		db.session.commit()
 		flash('Machine has been updated successfully!', 'success')
 		return redirect(url_for('machines', model_id=machine.model_id))

@@ -22,17 +22,31 @@
 					</a>
 				</div>
 				<div class="list-group">
-					{% for machine in machines %}
+
 					<div>
-						<a href="#" class="list-group-item list-group-item-action">{{ machine.serial_number }}
-							{{ machine.contract_name}}
-							{{ machine.contract_start_date}}
-							{{ machine.contract_end_date}}
-							{{machine.installation_date}}
+						<ul class="list-group list-group-horizontal">
+							<li class="list-group-item">Serial Number</li>
+							<li class="list-group-item">Contract Name</li>
+							<li class="list-group-item">Contract Type</li>
+							<li class="list-group-item">Contract Start Date</li>
+							<li class="list-group-item">Contract End Date</li>
+							<li class="list-group-item">Installation Date</li>
+							<li class="list-group-item">Warranty</li>
+							<li class="list-group-item">Hospital</li>
+						</ul>
+						{% for machine in machines %}
+						<ul class="list-group list-group-horizontal">
+							<li href="#" class="list-group-item list-group-item-action">{{ machine.serial_number }}</a>
+							<li class="list-group-item">{{ machine.contract_name}}</li>
+							<li class="list-group-item">{{ machine.contract_name}}</li>
+							<li class="list-group-item">{{ machine.contract_start_date}}</li>
+							<li class="list-group-item">{{ machine.contract_end_date}}</li>
+							<li class="list-group-item">{{machine.installation_date}}</li>
 							{% if machine.contract_type == 0 %}
-							this machine in Warranty
+							<li class="list-group-item">this machine in Warranty</li>
 							{% endif %}
-						</a>
+							<li class="list-group-item">{{ machine.hospital.name}}</li>
+						</ul>
 						<div>
 							<button type="button" class="btn btn-sm btn-danger custom-button mt-1"
 								data-bs-toggle="modal" data-bs-target="#deleteMachine{{ machine.id }}">Delete
