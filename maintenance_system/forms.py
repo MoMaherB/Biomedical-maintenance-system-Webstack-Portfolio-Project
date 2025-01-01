@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField, SubmitField, DateField, SelectField
+from wtforms.fields import StringField, PasswordField, SubmitField, DateField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Optional
 from maintenance_system.models import User, Department, Device, Model, Machine, Hospital
 
@@ -91,4 +91,16 @@ class HospitalForm(FlaskForm):
 	def validate_name(self, name):
 		hospital = Hospital.query.filter_by(name=name.data.strip()).first()
 		if hospital:
-			raise ValidationError('This hospital name already exists. Please choose another one.')			
+			raise ValidationError('This hospital name already exists. Please choose another one.')		
+
+#=========================================Task Forms====================================================
+class TaskForm(FlaskForm):
+	task_type = SelectField('Task Type', choices=[('0', 'Preventive'), ('1', 'Corrective'), ('2', 'installation')], validators=[DataRequired()])
+	description = TextAreaField('Description', validators=[DataRequired(), Length(min=10, max=100)])
+	result = TextAreaField('Result', validators=[DataRequired(), Length(min=10, max=100)])
+	hospital = SelectField('Hospital', choices=[('', 'Choose a hospital')], validators=[DataRequired()])
+	governorate = SelectField('Governorate',choices=[('', 'Choose a governorate')], validators=[DataRequired()])
+	device = SelectField('Device', choices=[('', 'Choose a device')], validators=[DataRequired()])
+	model = SelectField('Model',  choices=[('', 'Choose a device')], validators=[DataRequired()])
+	machine = SelectField('Machine',  choices=[('', 'Choose a device')], validators=[DataRequired()])
+	user = SelectField('User', validators=[DataRequired()])

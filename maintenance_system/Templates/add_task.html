@@ -1,0 +1,106 @@
+{% extends "layout.html"%}
+
+{% block content %}
+
+
+<div class="row justify-content-center">
+	<div class="col-lg-7 mt-4 mb-4">
+		<div class="card p-3 shadow-sm">
+			<form method="post">
+				{{ form.hidden_tag()}}
+				{{ form.task_type.label(class="form-label")}}
+				{% if form.task_type.errors %}
+				{{ form.task_type(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.task_type.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.task_type(class="form-control")}}
+				{% endif %}
+				<br>
+				<form method="POST" action="{{ url_for('add_task', department_id=department.id) }}">
+					{{form.governorate.label(class="form-label")}}
+					{% if form.governorate.errors %}
+					{{ form.governorate(class="form-control is-invalid", ) }}
+					<div id="validationServer03Feedback" class="invalid-feedback">
+						{% for error in form.governorate.errors %}
+						{{ error }}
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.governorate(class="form-control", onchange="this.form.submit();")}}
+					{% endif %}
+
+					{{ form.hospital.label(class="form-label")}}
+					{% if form.hospital.errors %}
+					{{ form.hospital(class="form-control is-invalid") }}
+					<div id="validationServer03Feedback" class="invalid-feedback">
+						{% for error in form.hospital.errors %}
+						{{ error }}
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.hospital(class="form-control")}}
+					{% endif %}
+
+					<br>
+					{{ form.device.label(class="form-label")}}
+					{% if form.device.errors %}
+					{{ form.device(class="form-control is-invalid") }}
+					<div id="validationServer03Feedback" class="invalid-feedback">
+						{% for error in form.device.errors %}
+						{{ error }}
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.device(class="form-control", onchange="this.form.submit();")}}
+					{% endif %}
+					<br>
+					{{ form.model.label(class="form-label")}}
+					{% if form.model.errors %}
+					{{ form.model(class="form-control is-invalid") }}
+					<div id="validationServer03Feedback" class="invalid-feedback">
+						{% for error in form.model.errors %}
+						{{ error }}
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.model(class="form-control", onchange="this.form.submit();")}}
+					{% endif %}
+					<br>
+
+					{{ form.machine.label(class="form-label")}}
+					{% if form.machine.errors %}
+					{{ form.machine(class="form-control is-invalid") }}
+					<div id="validationServer03Feedback" class="invalid-feedback">
+						{% for error in form.machine.errors %}
+						{{ error }}
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.machine(class="form-control")}}
+					{% endif %}
+					<br>
+				</form>
+
+
+				{{ form.description.label(class="form-label")}}
+				{% if form.description.errors %}
+				{{ form.description(class="form-control is-invalid") }}
+				<div id="validationServer03Feedback" class="invalid-feedback">
+					{% for error in form.description.errors %}
+					{{ error }}
+					{% endfor %}
+				</div>
+				{% else %}
+				{{ form.description(class="form-control")}}
+				{% endif %}
+				<br>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

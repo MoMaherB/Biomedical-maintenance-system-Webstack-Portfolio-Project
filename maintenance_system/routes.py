@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from maintenance_system import app, db
-from maintenance_system.models import User , Department, Device, Model, Machine, Hospital
-from maintenance_system.forms import UserForm, DepartmentForm, DeviceForm, ModelForm, MachineForm, HospitalForm
+from maintenance_system.models import User , Department, Device, Model, Machine, Hospital, Task
+from maintenance_system.forms import UserForm, DepartmentForm, DeviceForm, ModelForm, MachineForm, HospitalForm, TaskForm
 
 
 
@@ -329,7 +329,55 @@ def update_hospital(id):
 	form.submit.label.text = 'Update'
 	return render_template('add_hospital.html', form=form, form_name=form_name)
 
+#=====================================Task Routes======================================
+@app.route('/departments/<int:department_id>/tasks/', methods=['GET'])
+def tasks(department_id):
+	department = Department.query.get_or_404(department_id)
+	tasks = department.tasks
+	return render_template('tasks.html', department=department, tasks=tasks)
 
+@app.route('/departments/<int:department_id>/add_task', methods=['GET', 'POST'])
+def add_task(department_id):
+	department = Department.query.get_or_404(department_id)
+	hospitals = Hospital.query.all()
+	governorates = []
+	for hospital in hospitals:
+		if hospital.governorate not in governorates:
+			governorates.append(hospital.governorate) 
+	print(governorates)
+	form = TaskForm()
+	form.governorate.choices += [(governorate, governorate) for governorate in governorates]
+	form.device.choices += [(device.id, device.name) for device in department.devices]
+	
+
+	if request.method == 'POST':
+		if form.governorate.data:
+			governorate_hospitals = Hospital.query.filter_by(governorate=form.governorate.data).all()
+			form.hospital.choices += [(hospital.id, hospital.name) for hospital in governorate_hospitals]
+			form.machine.data = ''
+		if form.device.data:
+			device = Device.query.get_or_404(form.device.data)
+			form.model.choices += [(model.id, model.name) for model in device.models]
+			form.machine.data = ''
+
+		if form.model.data:
+			model = Model.query.get_or_404(form.model.data)
+			try:
+				hospital_id = int(form.hospital.data)
+			except:
+				hospital_id = 0
+			form.machine.choices += [(machine.id, machine.serial_number) for machine in model.machines if machine.hospital_id == hospital_id]
+			form.machine.data = ''
+		return render_template('add_task.html', form=form, department=department)
+	
+	
+	if form.validate_on_submit():
+		# task = Task(name=form.name.data, description=form.description.data)
+		# db.session.add(task)
+		# db.session.commit()
+		flash('Task has been created successfully!', 'success')
+		return redirect(url_for('tasks', department_id=department_id))
+	return render_template('add_task.html', form=form, department=department)
 
 @app.route('/<path:path>', methods=['GET'])
 def catch_all(path):
