@@ -1,5 +1,5 @@
 from maintenance_system import db
-from datetime import datetime
+from datetime import datetime, timedelta
 
 db.Table('user_task', db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
 db.Column('task_id', db.Integer, db.ForeignKey('task.id')))
@@ -81,16 +81,20 @@ class Hospital(db.Model):
 	tasks = db.relationship('Task', backref='hospital', lazy=True)
 	machines = db.relationship('Machine', backref='hospital', lazy=True)
 
+def default_time():
+    return datetime.utcnow() + timedelta(hours=2)
+
 class Task(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	task_type = db.Column(db.String(80))
 	status = db.Column(db.Integer, default=int(0)) # 0: not completed, 1: in progress, 2: done
-	open_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+	open_date = db.Column(db.DateTime, nullable=False, default=default_time)
 	close_date = db.Column(db.DateTime)
 	description = db.Column(db.String(200))
 	result = db.Column(db.String(200))
 	hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.id'))
 	users = db.relationship('User', secondary='user_task', backref='tasks', lazy='dynamic')
+
 
 
 	
