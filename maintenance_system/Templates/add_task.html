@@ -45,7 +45,9 @@
 				<br>
 
 				<!-- Machine -->
+				{% if form.model.data %}
 				{{ form.machine.label(class="form-label") }}
+				{% endif %}
 				<div>
 					{% for machine_id, machine_name in form.machine.choices %}
 					<div>

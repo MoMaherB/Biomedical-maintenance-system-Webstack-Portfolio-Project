@@ -13,6 +13,7 @@
 		</div>
 	</div>
 	<div class="row justify-content-center">
+		{% if tasks %}
 		{% for task in tasks %}
 		<div class="col-md-8 mb-4">
 			<div class="card shadow-sm">
@@ -93,6 +94,15 @@
 			</div>
 		</div>
 		{% endfor %}
+		{% else %}
+		<div class="col-md-8">
+			<div class="alert alert-warning" role="alert">
+				No completed tasks found.
+			</div>
+			<a href="{{ url_for('add_task', department_id=department.id) }}" class="btn btn-primary btn-lg">Add New
+				Task</a>
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

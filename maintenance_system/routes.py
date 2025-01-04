@@ -357,12 +357,13 @@ def add_task(department_id):
     form = TaskForm()
 
     # Populate initial choices
-    form.user.choices += [(user.id, user.username) for user in department.members]
+    form.user.choices = [(user.id, user.username) for user in department.members]
     form.governorate.choices += [
     (hospital.governorate, hospital.governorate) 
     for hospital in db.session.query(Hospital.governorate).group_by(Hospital.governorate).all()]
 
     form.device.choices += [(device.id, device.name) for device in department.devices]
+    form.machine.choices = []
 
     
     # Handle governorate selection
@@ -405,7 +406,7 @@ def add_task(department_id):
         db.session.add(task)
         db.session.commit()
         flash('Task has been created successfully!', 'success')
-        return redirect(url_for('tasks', department_id=department_id))
+        return redirect(url_for('in_progress_tasks', department_id=department_id))
     
     return render_template('add_task.html', form=form, department=department)
 

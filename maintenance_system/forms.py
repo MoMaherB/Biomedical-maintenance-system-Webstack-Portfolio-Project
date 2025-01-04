@@ -101,5 +101,5 @@ class TaskForm(FlaskForm):
 	governorate = SelectField('Governorate',choices=[('', 'Choose a governorate')], validators=[DataRequired()])
 	device = SelectField('Device', choices=[('', 'Choose a device')], validators=[DataRequired()])
 	model = SelectField('Model',  choices=[('', 'Choose a device')], validators=[DataRequired()])
-	machine = SelectMultipleField('Machine',  choices=[('', 'Choose a device')], validators=[DataRequired()])
-	user = SelectMultipleField('Engineer(s) / Technichan(s)',choices=[('', 'Choose an Engineer/ Technicain')], validators=[DataRequired()])
+	machine = SelectMultipleField('Machine', validators=[DataRequired()])
+	user = SelectMultipleField('Engineer(s) / Technichan(s)', validators=[DataRequired()])
