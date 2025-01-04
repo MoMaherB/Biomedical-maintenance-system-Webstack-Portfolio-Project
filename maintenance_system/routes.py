@@ -212,8 +212,12 @@ def update_model(model_id):
 def machines(model_id):
     model = Model.query.get_or_404(model_id)
     machines = model.machines
+    governorates = [
+    hospital.governorate 
+    for hospital in db.session.query(Hospital.governorate).group_by(Hospital.governorate).all()]
+    # print(request.args.get('governorate'))
     return render_template('machines.html',
-                model=model, machines=machines)
+                model=model, machines=machines, governorates=governorates)
 
 @app.route('/models/<int:model_id>/add_machine', methods=['GET', 'POST'])
 def add_machine(model_id):
@@ -397,7 +401,7 @@ def add_task(department_id):
           hospital_id=int(form.hospital.data),
           machines=machines,
           users=users         
-		)
+        )
         db.session.add(task)
         db.session.commit()
         flash('Task has been created successfully!', 'success')
@@ -414,6 +418,16 @@ def add_task_result(task_id):
     db.session.commit()
     flash('Task finished successfully!', 'success')
     return redirect(url_for('completed_tasks', department_id=task.machines[0].model.device.department_id))
+
+@app.route('/delete_task/<int:task_id>', methods=['Get', 'POST'])
+def delete_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    machine = task.machines[0]
+    print(machine)
+    db.session.delete(task)
+    db.session.commit()
+    flash(f'Task has been deleted successfully!', 'success')
+    return redirect(url_for('completed_tasks', department_id=machine.model.device.department_id))
 
 @app.route('/<path:path>', methods=['GET'])
 def catch_all(path):

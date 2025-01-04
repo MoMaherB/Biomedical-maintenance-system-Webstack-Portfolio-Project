@@ -7,15 +7,14 @@
 		<div class="col-lg-4 mb-4">
 			<div class="btn-group justify-content-center" role="group" aria-label="Basic mixed styles example">
 				<button type="button" class="btn btn-lg btn-warning active">In Progress Tasks</button>
-				<a href="{{ url_for('completed_tasks', department_id = department.id)}}"><button type="button"
-						class="btn btn-lg btn-success">Completed Tasks</button></a>
+				<a href="{{ url_for('completed_tasks', department_id = department.id)}}"
+					class="btn btn-lg btn-success">Completed Tasks</a>
 			</div>
 		</div>
 	</div>
 	<div class="row justify-content-center">
 		{% for task in tasks %}
 		<div class="col-md-8 mb-4">
-			<br>
 			<div class="card shadow-sm">
 				<div
 					class="card-header 
@@ -83,8 +82,12 @@
 						<textarea name="result" class="form-control" placeholder="Enter the result here"></textarea>
 						<div class="card-footer text-end">
 							<button class="btn btn-outline-success btn-sm">Task completed</button>
+							<a href="{{ url_for('delete_task', task_id=task.id) }}"
+								class="btn btn-danger btn-sm">Delete</a>
 						</div>
 					</form>
+
+
 					</p>
 				</div>
 			</div>

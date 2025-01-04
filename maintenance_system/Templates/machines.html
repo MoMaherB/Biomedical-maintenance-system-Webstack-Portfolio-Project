@@ -1,91 +1,117 @@
-{% extends "layout.html"%}
+{% extends "layout.html" %}
 
 {% block content %}
-
-
-<div class="row justify-content-center">
-	<div class="col-lg-8 mt-4 mb-4">
-		<div class="card p-3 shadow-sm">
-			<div class="row">
-				<div class="col-md-8 col-lg-12 mt-4 mb-4">
-					<h1 class="text-center">{{ model.name }}</h1>
-					<a href="{{ url_for('models', device_id=model.device.department.id) }}" class="anchor-custom">
-						<h4 class="text-center">{{model.device.name}} Device</h4>
+<div class="container mt-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-10">
+			<div class="card p-4 shadow-sm">
+				<!-- Model Info -->
+				<div class="text-center mb-4">
+					<h1 class="display-5">{{ model.name }}</h1>
+					<a href="{{ url_for('models', device_id=model.device.department.id) }}"
+						class="text-decoration-none">
+						<h4 class="text-primary">{{ model.device.name }} Device</h4>
 					</a>
-					<a href="{{ url_for('devices', department_id=model.device.department.id) }}" class="anchor-custom">
-						<h6 class="text-center">{{model.device.department.name}} Department</h6>
+					<a href="{{ url_for('devices', department_id=model.device.department.id) }}"
+						class="text-decoration-none">
+						<h6 class="text-secondary">{{ model.device.department.name }} Department</h6>
 					</a>
-					<a href="{{ url_for('add_machine', model_id=model.id) }}">
-						<button type="button" class="btn btn-info btn-md">
-							Add New Machine
-						</button>
+					<a href="{{ url_for('add_machine', model_id=model.id) }}" class="btn btn-info btn-sm mt-3">
+						Add New Machine
 					</a>
 				</div>
-				<div class="list-group">
-
-					<div>
-						<ul class="list-group list-group-horizontal">
-							<li class="list-group-item">Serial Number</li>
-							<li class="list-group-item">Contract Name</li>
-							<li class="list-group-item">Contract Type</li>
-							<li class="list-group-item">Contract Start Date</li>
-							<li class="list-group-item">Contract End Date</li>
-							<li class="list-group-item">Installation Date</li>
-							<li class="list-group-item">Warranty</li>
-							<li class="list-group-item">Hospital</li>
-						</ul>
-						{% for machine in machines %}
-						<ul class="list-group list-group-horizontal">
-							<li href="#" class="list-group-item list-group-item-action">{{ machine.serial_number }}</a>
-							<li class="list-group-item">{{ machine.contract_name}}</li>
-							<li class="list-group-item">{{ machine.contract_name}}</li>
-							<li class="list-group-item">{{ machine.contract_start_date}}</li>
-							<li class="list-group-item">{{ machine.contract_end_date}}</li>
-							<li class="list-group-item">{{machine.installation_date}}</li>
-							{% if machine.contract_type == 0 %}
-							<li class="list-group-item">this machine in Warranty</li>
-							{% endif %}
-							<li class="list-group-item">{{ machine.hospital.name}}</li>
-						</ul>
-						<div>
-							<button type="button" class="btn btn-sm btn-danger custom-button mt-1"
-								data-bs-toggle="modal" data-bs-target="#deleteMachine{{ machine.id }}">Delete
-								Machine</button>
-							<a href="{{ url_for('update_machine', machine_id=machine.id) }}"><button type="button"
-									class="btn btn-sm btn-warning btn-custom mt-1">Update
-									Machine</button>
-							</a>
-						</div>
-						<br>
+				<!-- Form for selecting governorate -->
+				<form method="GET" action="{{ url_for('machines', model_id=model.id) }}">
+					<div class="mb-3">
+						<label for="governorate" class="form-label">Select Governorate</label>
+						<select id="governorate" name="governorate" class="form-select" onchange="this.form.submit()">
+							<option value="">Choose a governorate</option>
+							{% for governorate in governorates %}
+							<option value="{{ governorate }}" {% if request.args.get('governorate')==governorate
+								%}selected{% endif %}>
+								{{ governorate }}
+							</option>
+							{% endfor %}
+						</select>
 					</div>
-					<div class="modal fade" id="deleteMachine{{ machine.id }}" data-bs-keyboard="false" tabindex="-1"
-						aria-labelledby="deleteMachineLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="deleteMachineLabel">Are you sure
-										that you want to
-										delete
-										{{machine.serial_number}} machine in {{machine.model.name}}
-										{{machine.model.device.name}}?
-									</h1>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<form method="POST" action="{{ url_for('delete_machine', machine_id=machine.id) }}">
-										<button type="submit" class="btn btn-danger mt-3">Delete {{
-											machine.name }} Machine !!!</button>
-									</form>
+				</form>
+
+				<!-- Machines List -->
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover">
+						<thead class="table-light">
+							<tr>
+								<th>Serial Number</th>
+								<th>Contract Name</th>
+								<th>Contract Type</th>
+								<th>Contract Start Date</th>
+								<th>Contract End Date</th>
+								<th>Installation Date</th>
+								<th>Warranty</th>
+								<th>Hospital</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for machine in machines %}
+							<tr>
+								<td>{{ machine.serial_number }}</td>
+								<td>{{ machine.contract_name }}</td>
+								<td>{{ "Warranty" if machine.contract_type == 0 else "Non-Warranty" }}</td>
+								<td>{{ machine.contract_start_date }}</td>
+								<td>{{ machine.contract_end_date }}</td>
+								<td>{{ machine.installation_date }}</td>
+								<td>{% if machine.contract_type == 0 %} This machine is under warranty {% else %} No
+									warranty {% endif %}</td>
+								<td>{{ machine.hospital.name }}</td>
+								<td>
+									<div class="d-flex gap-2">
+										<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+											data-bs-target="#deleteMachine{{ machine.id }}">
+											Delete
+										</button>
+										<a href="{{ url_for('update_machine', machine_id=machine.id) }}"
+											class="btn btn-warning btn-sm">
+											Update
+										</a>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Delete Modal -->
+							<div class="modal fade" id="deleteMachine{{ machine.id }}" tabindex="-1"
+								aria-labelledby="deleteMachineLabel{{ machine.id }}" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="deleteMachineLabel{{ machine.id }}">Delete
+												Machine</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal"
+												aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											Are you sure you want to delete the machine
+											<strong>{{ machine.serial_number }}</strong> in
+											<strong>{{ machine.model.name }}</strong>
+											<strong>{{ machine.model.device.name }}</strong>?
+										</div>
+										<div class="modal-footer">
+											<form method="POST"
+												action="{{ url_for('delete_machine', machine_id=machine.id) }}">
+												<button type="submit" class="btn btn-danger">Delete</button>
+											</form>
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Cancel</button>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					{% endfor %}
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
-
 			</div>
 		</div>
 	</div>
 </div>
-{% endblock%}
+{% endblock %}
