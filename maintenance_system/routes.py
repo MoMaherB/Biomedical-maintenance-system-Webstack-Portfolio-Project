@@ -215,9 +215,17 @@ def machines(model_id):
     governorates = [
     hospital.governorate 
     for hospital in db.session.query(Hospital.governorate).group_by(Hospital.governorate).all()]
-    # print(request.args.get('governorate'))
+    hospitals = Hospital.query.all()
+   
+    if request.args.get('governorate'):
+        machines = [machine for machine in machines if machine.hospital.governorate == request.args.get('governorate')]
+        hospitals = [hospital for hospital in hospitals if hospital.governorate == request.args.get('governorate')]
+    
+    if request.args.get('hospital'):
+        machines = [machine for machine in machines if machine.hospital_id == int(request.args.get('hospital'))]
+
     return render_template('machines.html',
-                model=model, machines=machines, governorates=governorates)
+                model=model, machines=machines, governorates=governorates, hospitals=hospitals)
 
 @app.route('/models/<int:model_id>/add_machine', methods=['GET', 'POST'])
 def add_machine(model_id):

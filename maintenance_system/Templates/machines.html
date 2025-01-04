@@ -22,14 +22,26 @@
 				</div>
 				<!-- Form for selecting governorate -->
 				<form method="GET" action="{{ url_for('machines', model_id=model.id) }}">
-					<div class="mb-3">
-						<label for="governorate" class="form-label">Select Governorate</label>
+					<div class="mb-3 ">
 						<select id="governorate" name="governorate" class="form-select" onchange="this.form.submit()">
-							<option value="">Choose a governorate</option>
+							<option value="">Select Governorate</option>
 							{% for governorate in governorates %}
 							<option value="{{ governorate }}" {% if request.args.get('governorate')==governorate
 								%}selected{% endif %}>
 								{{ governorate }}
+							</option>
+							{% endfor %}
+						</select>
+					</div>
+				</form>
+				<!-- Form for selecting hospital -->
+				<form method="GET" action="{{ url_for('machines', model_id=model.id) }}">
+					<div class="mb-3 ">
+						<select id="hospital" name="hospital" class="form-select" onchange="this.form.submit()">
+							<option value="">Select Hospital</option>
+							{% for hospital in hospitals %}
+							<option value="{{ hospital.id }}" {% if request.args.get('hospital')==hospital.id %}selected{% endif %}>
+								{{ hospital.name }}
 							</option>
 							{% endfor %}
 						</select>
