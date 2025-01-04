@@ -1,5 +1,5 @@
 from maintenance_system import db
-from datetime import datetime, timedelta
+from maintenance_system.default_time import default_time
 
 db.Table('user_task', db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
 db.Column('task_id', db.Integer, db.ForeignKey('task.id')))
@@ -81,8 +81,7 @@ class Hospital(db.Model):
 	tasks = db.relationship('Task', backref='hospital', lazy=True)
 	machines = db.relationship('Machine', backref='hospital', lazy=True)
 
-def default_time():
-    return datetime.utcnow() + timedelta(hours=2)
+
 
 class Task(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

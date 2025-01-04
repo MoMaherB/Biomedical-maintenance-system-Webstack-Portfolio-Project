@@ -3,7 +3,7 @@ from maintenance_system import app, db
 from maintenance_system.models import User , Department, Device, Model, Machine, Hospital, Task
 from maintenance_system.forms import UserForm, DepartmentForm, DeviceForm, ModelForm, MachineForm, HospitalForm, TaskForm
 from sqlalchemy import distinct
-
+from maintenance_system.default_time import default_time
 
 
 @app.route("/")
@@ -331,12 +331,21 @@ def update_hospital(id):
     return render_template('add_hospital.html', form=form, form_name=form_name)
 
 #=====================================Task Routes======================================
-@app.route('/departments/<int:department_id>/tasks/', methods=['GET'])
-def tasks(department_id):
+@app.route('/departments/<int:department_id>/in_progress_tasks/', methods=['GET', 'POST'])
+def in_progress_tasks(department_id):
     department = Department.query.get_or_404(department_id)
     
     tasks = Task.query.join(Task.machines).join(Machine.model).join(Model.device).filter(Device.department_id == department_id).all()
-    return render_template('tasks.html', department=department, tasks=tasks)
+    tasks = [task for task in tasks if task.status == 0]
+    return render_template('in_progress_tasks.html', department=department, tasks=tasks)
+
+@app.route('/departments/<int:department_id>/completed_tasks/', methods=['GET'])
+def completed_tasks(department_id):
+    department = Department.query.get_or_404(department_id)
+    
+    tasks = Task.query.join(Task.machines).join(Machine.model).join(Model.device).filter(Device.department_id == department_id).all()
+    tasks = [task for task in tasks if task.status == 1]
+    return render_template('completed_tasks.html', department=department, tasks=tasks)
 
 @app.route('/departments/<int:department_id>/add_task', methods=['GET', 'POST'])
 def add_task(department_id):
@@ -395,6 +404,16 @@ def add_task(department_id):
         return redirect(url_for('tasks', department_id=department_id))
     
     return render_template('add_task.html', form=form, department=department)
+
+@app.route('/add_task_result/<int:task_id>', methods=['GET', 'POST'])
+def add_task_result(task_id):
+    task = Task.query.get_or_404(task_id)
+    task.status = 1
+    task.result = request.form.get('result')
+    task.close_date = default_time()
+    db.session.commit()
+    flash('Task finished successfully!', 'success')
+    return redirect(url_for('completed_tasks', department_id=task.machines[0].model.device.department_id))
 
 @app.route('/<path:path>', methods=['GET'])
 def catch_all(path):
