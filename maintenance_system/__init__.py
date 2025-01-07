@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 
@@ -9,5 +10,7 @@ app.url_map.strict_slashes = False
 
 
 db = SQLAlchemy(app)
+bycrypt = Bcrypt(app)
 
 from maintenance_system import routes
+

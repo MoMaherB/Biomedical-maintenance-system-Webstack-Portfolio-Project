@@ -22,6 +22,11 @@ class UserForm(FlaskForm):
 		if user:
 			raise ValidationError('This email already taken. Please choose another one.')
 		
+#=========================================Login Forms====================================================
+class LoginForm(FlaskForm):
+	email = StringField('Email', validators=[DataRequired(), Email(message='Please Enter valid email address!')])
+	password = PasswordField('Password', validators=[DataRequired()])
+	submit = SubmitField('Login')
 #=========================================Department Forms====================================================
 
 
