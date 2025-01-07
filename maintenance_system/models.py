@@ -1,5 +1,10 @@
-from maintenance_system import db
+from maintenance_system import db , login_manager
 from maintenance_system.default_time import default_time
+from flask_login import UserMixin
+
+@login_manager.user_loader
+def load_user(user_id):
+	return User.query.get(int(user_id))
 
 db.Table('user_task', db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
 db.Column('task_id', db.Integer, db.ForeignKey('task.id')))
@@ -7,7 +12,7 @@ db.Column('task_id', db.Integer, db.ForeignKey('task.id')))
 db.Table('user_hospital', db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
 db.Column('hospital_id', db.Integer, db.ForeignKey('hospital.id')))
 
-class User(db.Model):
+class User(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(80), unique=True)
 	email = db.Column(db.String(120), unique=True)

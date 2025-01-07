@@ -1,9 +1,9 @@
 from flask import render_template, redirect, url_for, flash, request
-from maintenance_system import app, db, bycrypt
+from maintenance_system import app, db, bycrypt, login_manager
 from maintenance_system.models import User , Department, Device, Model, Machine, Hospital, Task
 from maintenance_system.forms import UserForm, LoginForm, DepartmentForm, DeviceForm, ModelForm, MachineForm, HospitalForm, TaskForm
-from sqlalchemy import distinct
 from maintenance_system.default_time import default_time
+from flask_login import login_user, current_user, logout_user, login_required
 
 
 @app.route("/")
@@ -16,6 +16,8 @@ def home():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = UserForm()
     if form.validate_on_submit():
         hashed_password = bycrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -28,6 +30,8 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     form.submit.label.text = 'Login'
     print(form.errors)
@@ -36,7 +40,8 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bycrypt.check_password_hash(user.password, form.password.data):
             flash(f'Hello {user.username}. You are logged in succsessfully!', 'success')
-            return redirect(url_for('users'))
+            login_user(user)
+            return redirect(url_for('user',id=current_user.id))
         else:
             flash('Login Unsuccessfull! Please check username and password', 'danger')
     return render_template('login.html', form=form)
