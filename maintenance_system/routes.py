@@ -121,7 +121,6 @@ def update_department(id):
 
 #====================================Devices Routes======================================
 
-#show all devices of a department and add new device
 @app.route('/departments/<int:department_id>/devices/', methods=['GET'])
 def devices(department_id):
     department = Department.query.get_or_404(department_id)

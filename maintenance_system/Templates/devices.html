@@ -113,7 +113,7 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('delete_device', device_id=device.id) }}">
+								<form method="POST" action="{{ url_for('devicesbp.delete_device', device_id=device.id) }}">
 									<button type="submit" class="btn btn-danger mt-3">Delete {{
 										device.name }} Device !!!</button>
 								</form>
@@ -137,7 +137,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form method="POST" action="{{ url_for('add_device', department_id=department.id) }}">
+					<form method="POST" action="{{ url_for('devicesbp.add_device', department_id=department.id) }}">
 						{{ form.hidden_tag() }} <!-- CSRF token -->
 
 						<!-- Department Name Field -->
