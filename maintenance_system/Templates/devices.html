@@ -30,7 +30,7 @@
 								<div class="list-group">
 									{% for model in device.models%}
 									{# {{url_for('device', id = device.id)}} #}
-									<a href="{{ url_for('machines', model_id = model.id)}}"
+									<a href="{{ url_for('machinesbp.machines', model_id = model.id)}}"
 										class="list-group-item list-group-item-action">{{
 										model.name }}</a>
 									{% endfor%}

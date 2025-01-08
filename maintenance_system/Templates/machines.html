@@ -16,12 +16,12 @@
 						class="text-decoration-none">
 						<h6 class="text-secondary">{{ model.device.department.name }} Department</h6>
 					</a>
-					<a href="{{ url_for('add_machine', model_id=model.id) }}" class="btn btn-info btn-sm mt-3">
+					<a href="{{ url_for('machinesbp.add_machine', model_id=model.id) }}" class="btn btn-info btn-sm mt-3">
 						Add New Machine
 					</a>
 				</div>
 				<!-- Form for selecting governorate -->
-				<form method="GET" action="{{ url_for('machines', model_id=model.id) }}">
+				<form method="GET" action="{{ url_for('machinesbp.machines', model_id=model.id) }}">
 					<div class="mb-3 ">
 						<select id="governorate" name="governorate" class="form-select" onchange="this.form.submit()">
 							<option value="">Select Governorate</option>
@@ -35,7 +35,7 @@
 					</div>
 				</form>
 				<!-- Form for selecting hospital -->
-				<form method="GET" action="{{ url_for('machines', model_id=model.id) }}">
+				<form method="GET" action="{{ url_for('machinesbp.machines', model_id=model.id) }}">
 					<div class="mb-3 ">
 						<select id="hospital" name="hospital" class="form-select" onchange="this.form.submit()">
 							<option value="">Select Hospital</option>
@@ -82,7 +82,7 @@
 											data-bs-target="#deleteMachine{{ machine.id }}">
 											Delete
 										</button>
-										<a href="{{ url_for('update_machine', machine_id=machine.id) }}"
+										<a href="{{ url_for('machinesbp.update_machine', machine_id=machine.id) }}"
 											class="btn btn-warning btn-sm">
 											Update
 										</a>
@@ -109,7 +109,7 @@
 										</div>
 										<div class="modal-footer">
 											<form method="POST"
-												action="{{ url_for('delete_machine', machine_id=machine.id) }}">
+												action="{{ url_for('machinesbp.delete_machine', machine_id=machine.id) }}">
 												<button type="submit" class="btn btn-danger">Delete</button>
 											</form>
 											<button type="button" class="btn btn-secondary"
