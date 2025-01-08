@@ -14,30 +14,33 @@ db = SQLAlchemy(app)
 bycrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
-from maintenance_system import routes
+from maintenance_system.Routes import main_routes
 
 from maintenance_system.API.api import api
 app.register_blueprint(api)
 
+from maintenance_system.Routes.users_routes import usersbp
+app.register_blueprint(usersbp)
 
-from maintenance_system.TheRoutes.departments_routes import departmentsbp
+
+from maintenance_system.Routes.departments_routes import departmentsbp
 app.register_blueprint(departmentsbp)
 
-from maintenance_system.TheRoutes.devices_routes import devicesbp
+from maintenance_system.Routes.devices_routes import devicesbp
 app.register_blueprint(devicesbp)
 
 
-from maintenance_system.TheRoutes.models_routes import modelsbp
+from maintenance_system.Routes.models_routes import modelsbp
 app.register_blueprint(modelsbp)
 
-from maintenance_system.TheRoutes.machines_routes import machinesbp
+from maintenance_system.Routes.machines_routes import machinesbp
 app.register_blueprint(machinesbp)
 
 
-from maintenance_system.TheRoutes.hospital_routes import hospitalpb
+from maintenance_system.Routes.hospital_routes import hospitalpb
 app.register_blueprint(hospitalpb)
 
-from maintenance_system.TheRoutes.task_routes import taskpb
+from maintenance_system.Routes.task_routes import taskpb
 app.register_blueprint(taskpb)
 
 

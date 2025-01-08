@@ -20,7 +20,7 @@
 								{% if department.members%}
 								<div class="list-group">
 									{% for member in department.members%}
-									<a href="{{ url_for('user', id = member.id)}}"
+									<a href="{{ url_for('usersbp.user', id = member.id)}}"
 										class="list-group-item list-group-item-action">{{ member.username }} - {{
 										member.rank }}</a>
 									{% endfor%}
