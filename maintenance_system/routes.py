@@ -61,125 +61,125 @@ def user(id):
 #====================================Department Routes======================================
 
 
-@app.route('/departments/', methods=['GET', 'POST'])
-def departments():
-    form = DepartmentForm()
-    departments = Department.query.all()
-    return render_template('departments.html', departments=departments, form=form)
+# @app.route('/departments/', methods=['GET', 'POST'])
+# def departments():
+#     form = DepartmentForm()
+#     departments = Department.query.all()
+#     return render_template('departments.html', departments=departments, form=form)
 
-@app.route('/departments/<int:id>/')
-def department(id):
-    department = Department.query.get_or_404(id)
-    return render_template('department.html',department=department )
+# @app.route('/departments/<int:id>/')
+# def department(id):
+#     department = Department.query.get_or_404(id)
+#     return render_template('department.html',department=department )
 
-@app.route('/add_department', methods=['GET', 'POST'])
-def add_department():
-    form = DepartmentForm()
-    if request.method == 'GET':
-        return redirect(url_for('departments'))
-    elif form.validate_on_submit():
-        new_department = Department(name=form.name.data)
-        db.session.add(new_department)
-        db.session.commit()
-        flash(f'Department {form.name.data} has been created successfully!', 'success')
-        return redirect(url_for('departments'))
+# @app.route('/add_department', methods=['GET', 'POST'])
+# def add_department():
+#     form = DepartmentForm()
+#     if request.method == 'GET':
+#         return redirect(url_for('departments'))
+#     elif form.validate_on_submit():
+#         new_department = Department(name=form.name.data)
+#         db.session.add(new_department)
+#         db.session.commit()
+#         flash(f'Department {form.name.data} has been created successfully!', 'success')
+#         return redirect(url_for('departments'))
     
-    departments = Department.query.all()
-    flash('Department name already exists. Please choose another one.', 'danger')
-    return render_template('departments.html', form=form, departments=departments)
+#     departments = Department.query.all()
+#     flash('Department name already exists. Please choose another one.', 'danger')
+#     return render_template('departments.html', form=form, departments=departments)
 
-@app.route('/delete_department/<int:id>', methods=['POST'])
-def delete_department(id):
-    department = Department.query.get_or_404(id)
-    for device in department.devices:
-        for model in device.models:
-            for machine in model.machines:
-                db.session.delete(machine)
-            db.session.delete(model)
-    db.session.delete(department)
-    db.session.commit()
-    flash(f'Department {department.name} has been deleted successfully!', 'success')
-    return redirect(url_for('departments'))
+# @app.route('/delete_department/<int:id>', methods=['POST'])
+# def delete_department(id):
+#     department = Department.query.get_or_404(id)
+#     for device in department.devices:
+#         for model in device.models:
+#             for machine in model.machines:
+#                 db.session.delete(machine)
+#             db.session.delete(model)
+#     db.session.delete(department)
+#     db.session.commit()
+#     flash(f'Department {department.name} has been deleted successfully!', 'success')
+#     return redirect(url_for('departments'))
 
-@app.route('/update_department/<int:id>', methods=['GET', 'POST'])
-def update_department(id):
-    department = Department.query.get_or_404(id)
-    form = DepartmentForm()
-    if request.method == 'GET':
-        return redirect(url_for('departments'))
-    elif form.validate_on_submit():
-        department.name = form.name.data
-        db.session.commit()
-        flash('Department has been updated successfully!', 'success')
-        return redirect(url_for('departments'))
-    else:
-        if form.name.data == department.name:
-            flash('No changes detected. Nothing to update.', 'info')
-        else:
-            flash('Department name already exists. Please choose another one.', 'danger')
-        return redirect(url_for('departments'))
+# @app.route('/update_department/<int:id>', methods=['GET', 'POST'])
+# def update_department(id):
+#     department = Department.query.get_or_404(id)
+#     form = DepartmentForm()
+#     if request.method == 'GET':
+#         return redirect(url_for('departments'))
+#     elif form.validate_on_submit():
+#         department.name = form.name.data
+#         db.session.commit()
+#         flash('Department has been updated successfully!', 'success')
+#         return redirect(url_for('departments'))
+#     else:
+#         if form.name.data == department.name:
+#             flash('No changes detected. Nothing to update.', 'info')
+#         else:
+#             flash('Department name already exists. Please choose another one.', 'danger')
+#         return redirect(url_for('departments'))
 
 #====================================Devices Routes======================================
 
-@app.route('/departments/<int:department_id>/devices/', methods=['GET'])
-def devices(department_id):
-    department = Department.query.get_or_404(department_id)
-    form = DeviceForm()
-    devices = department.devices
-    return render_template('devices.html', department=department, devices=devices, form=form)
+# @app.route('/departments/<int:department_id>/devices/', methods=['GET'])
+# def devices(department_id):
+#     department = Department.query.get_or_404(department_id)
+#     form = DeviceForm()
+#     devices = department.devices
+#     return render_template('devices.html', department=department, devices=devices, form=form)
 
-@app.route('/dpeartments/<int:department_id>/add_device', methods=['GET', 'POST'])
-def add_device(department_id):
-    form = DeviceForm()
-    if request.method == 'GET':
-        return redirect(url_for('devices', department_id=department_id))
-    elif form.validate_on_submit():
-        device = Device(name=form.name.data, department_id=department_id)
-        db.session.add(device)
-        db.session.commit()
-        flash(f'Device {form.name.data} has been created successfully!', 'success')
-        return redirect(url_for('devices', department_id=department_id))
-    else:
-        department = Department.query.get_or_404(department_id)
-        devices = department.devices
-        flash('Device name already exists. Please choose another one.', 'danger')
-        return render_template('devices.html', department=department, devices=devices, form=form)
+# @app.route('/dpeartments/<int:department_id>/add_device', methods=['GET', 'POST'])
+# def add_device(department_id):
+#     form = DeviceForm()
+#     if request.method == 'GET':
+#         return redirect(url_for('devices', department_id=department_id))
+#     elif form.validate_on_submit():
+#         device = Device(name=form.name.data, department_id=department_id)
+#         db.session.add(device)
+#         db.session.commit()
+#         flash(f'Device {form.name.data} has been created successfully!', 'success')
+#         return redirect(url_for('devices', department_id=department_id))
+#     else:
+#         department = Department.query.get_or_404(department_id)
+#         devices = department.devices
+#         flash('Device name already exists. Please choose another one.', 'danger')
+#         return render_template('devices.html', department=department, devices=devices, form=form)
 
-@app.route('/devices/<int:device_id>')
-def device(device_id):
-    device = Device.query.get_or_404(device_id)
-    return render_template('device.html', device=device)
+# @app.route('/devices/<int:device_id>')
+# def device(device_id):
+#     device = Device.query.get_or_404(device_id)
+#     return render_template('device.html', device=device)
 
-@app.route('/delete_device/<int:device_id>', methods=['POST'])
-def delete_device(device_id):
-    device = Device.query.get_or_404(device_id)
-    for model in device.models:
-        for machine in model.machines:
-            db.session.delete(machine)
-        db.session.delete(model)
-    db.session.delete(device)
-    db.session.commit()
-    flash(f'Device {device.name} has been deleted successfully!', 'success')
-    return redirect(url_for('devices', department_id=device.department_id))
+# @app.route('/delete_device/<int:device_id>', methods=['POST'])
+# def delete_device(device_id):
+#     device = Device.query.get_or_404(device_id)
+#     for model in device.models:
+#         for machine in model.machines:
+#             db.session.delete(machine)
+#         db.session.delete(model)
+#     db.session.delete(device)
+#     db.session.commit()
+#     flash(f'Device {device.name} has been deleted successfully!', 'success')
+#     return redirect(url_for('devices', department_id=device.department_id))
 
-@app.route('/update_device/<int:device_id>', methods=['GET', 'POST'])
-def update_device(device_id):
-    device = Device.query.get_or_404(device_id)
-    form = DeviceForm()
-    if request.method == 'GET':
-        return redirect(url_for('devices', department_id=device.department_id))
-    elif form.validate_on_submit():
-        device.name = form.name.data
-        db.session.commit()
-        flash('Device has been updated successfully!', 'success')
-        return redirect(url_for('devices', department_id=device.department_id))
-    else:
-        if form.name.data == device.name:
-            flash('No changes detected. Nothing to update.', 'info')
-        else:
-            flash('Device name already exists. Please choose another one.', 'danger')
+# @app.route('/update_device/<int:device_id>', methods=['GET', 'POST'])
+# def update_device(device_id):
+#     device = Device.query.get_or_404(device_id)
+#     form = DeviceForm()
+#     if request.method == 'GET':
+#         return redirect(url_for('devices', department_id=device.department_id))
+#     elif form.validate_on_submit():
+#         device.name = form.name.data
+#         db.session.commit()
+#         flash('Device has been updated successfully!', 'success')
+#         return redirect(url_for('devices', department_id=device.department_id))
+#     else:
+#         if form.name.data == device.name:
+#             flash('No changes detected. Nothing to update.', 'info')
+#         else:
+#             flash('Device name already exists. Please choose another one.', 'danger')
         
-        return redirect(url_for('devices', department_id=device.department_id))
+#         return redirect(url_for('devices', department_id=device.department_id))
 
 #====================================Model Routes======================================
 

@@ -10,7 +10,7 @@
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<div class="card p-3 shadow-sm">
 						<div class="row align-items-center">
-						<a href="{{ url_for('department', id = department.id)}}"  class="anchor-custom">
+						<a href="{{ url_for('departmentsbp.department', id = department.id)}}"  class="anchor-custom">
 									<h3 class="mb-1 text-center">{{department.name}}</h3>
 								</a>
 							<!-- Left Side: User Information -->
@@ -57,10 +57,10 @@
 								{# {{ url_for('add_device', department_id = department.id)}} #}
 									<a href="#"><button
 											type="button" class="btn btn-info btn-custom">Add new Device</button></a>
-									<a href="{{ url_for('update_department', id = department.id)}}"><button
+									<a href="{{ url_for('departmentsbp.update_department', id = department.id)}}"><button
 											type="button" class="btn btn-warning btn-custom">Update
 											Department</button></a>
-									<a href="{{ url_for('delete_department', id = department.id)}}"><button
+									<a href="{{ url_for('departmentsbp.delete_department', id = department.id)}}"><button
 											type="button" class="btn btn-danger custom-button">Delete
 											Department</button></a>
 								</div>

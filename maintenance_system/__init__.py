@@ -20,6 +20,9 @@ from maintenance_system.API.api import api
 app.register_blueprint(api)
 
 
+from maintenance_system.TheRoutes.departments_routes import departmentsbp
+app.register_blueprint(departmentsbp)
+
 from maintenance_system.TheRoutes.devices_routes import devicesbp
 app.register_blueprint(devicesbp)
 

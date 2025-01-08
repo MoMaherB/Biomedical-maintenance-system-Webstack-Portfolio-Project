@@ -8,7 +8,7 @@
 		<div class="card p-3 shadow-sm">
 			<div class="row">
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
-					<a href="{{ url_for('department', id = department.id) }}" class="anchor-custom">
+					<a href="{{ url_for('departmentsbp.department', id = department.id) }}" class="anchor-custom">
 						<h1 class="text-center">{{ department.name }}</h1>
 					</a>
 					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
@@ -72,7 +72,7 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('update_device', device_id = device.id)}}">
+								<form method="POST" action="{{ url_for('devicesbp.update_device', device_id = device.id)}}">
 									{{ form.hidden_tag() }} <!-- CSRF token -->
 
 									<!-- Department Name Field -->
