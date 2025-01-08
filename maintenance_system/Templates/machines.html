@@ -8,7 +8,7 @@
 				<!-- Model Info -->
 				<div class="text-center mb-4">
 					<h1 class="display-5">{{ model.name }}</h1>
-					<a href="{{ url_for('models', device_id=model.device.department.id) }}"
+					<a href="{{ url_for('modelsbp.models', device_id=model.device.department.id) }}"
 						class="text-decoration-none">
 						<h4 class="text-primary">{{ model.device.name }} Device</h4>
 					</a>

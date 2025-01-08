@@ -19,6 +19,10 @@ from maintenance_system import routes
 from maintenance_system.API.api import api
 app.register_blueprint(api)
 
+
+from maintenance_system.TheRoutes.models_routes import modelsbp
+app.register_blueprint(modelsbp)
+
 from maintenance_system.TheRoutes.machines_routes import machinesbp
 app.register_blueprint(machinesbp)
 

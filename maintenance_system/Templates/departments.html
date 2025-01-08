@@ -43,7 +43,7 @@
 								{% if department.devices%}
 								<div class="list-group">
 									{% for device in department.devices%}
-									<a href=" {{url_for( 'models', device_id=device.id) }}"
+									<a href=" {{url_for( 'modelsbp.models', device_id=device.id) }}"
 										class="list-group-item list-group-item-action">{{
 										device.name }}</a>
 									{% endfor%}

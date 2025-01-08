@@ -72,7 +72,7 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('update_model', model_id = model.id)}}">
+								<form method="POST" action="{{ url_for('modelsbp.update_model', model_id = model.id)}}">
 									{{ form.hidden_tag() }} <!-- CSRF token -->
 
 									<!-- Department Name Field -->
@@ -115,7 +115,7 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('delete_model', model_id=model.id) }}">
+								<form method="POST" action="{{ url_for('modelsbp.delete_model', model_id=model.id) }}">
 									<button type="submit" class="btn btn-danger mt-3">Delete {{
 										model.name }} Model !!!</button>
 								</form>
@@ -139,7 +139,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form method="POST" action="{{ url_for('add_model', device_id=device.id) }}">
+					<form method="POST" action="{{ url_for('modelsbp.add_model', device_id=device.id) }}">
 						{{ form.hidden_tag() }} <!-- CSRF token -->
 
 						<!-- Department Name Field -->
