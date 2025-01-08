@@ -9,7 +9,7 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<h1 class="text-center">Hospitals</h1>
-					<a href="{{ url_for('add_hospital') }}"><button type="button" class="btn btn-info btn-md">Add
+					<a href="{{ url_for('hospitalpb.add_hospital') }}"><button type="button" class="btn btn-info btn-md">Add
 							New Hospital</button></a>
 				</div>
 				{% for hospital in hospitals %}
@@ -27,7 +27,7 @@
 								<button type="button" class="btn btn-danger custom-button mt-1" data-bs-toggle="modal"
 									data-bs-target="#deleteHospital{{ hospital.id }}">Delete
 									Hospital</button>
-								<a href="{{ url_for('update_hospital', id=hospital.id) }}"><button type="button"
+								<a href="{{ url_for('hospitalpb.update_hospital', id=hospital.id) }}"><button type="button"
 										class="btn btn-warning btn-custom mt-1">Update
 										Hospital</button></a>
 							</div>
@@ -52,7 +52,7 @@
 								</div>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('delete_hospital', id=hospital.id) }}">
+								<form method="POST" action="{{ url_for('hospitalpb.delete_hospital', id=hospital.id) }}">
 									<button type="submit" class="btn btn-danger mt-3">Delete {{
 										hospital.name }} Hospital !!!</button>
 								</form>

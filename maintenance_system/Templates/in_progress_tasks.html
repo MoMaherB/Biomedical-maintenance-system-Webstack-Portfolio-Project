@@ -7,7 +7,7 @@
 		<div class="col-lg-4 mb-4">
 			<div class="btn-group justify-content-center" role="group" aria-label="Basic mixed styles example">
 				<button type="button" class="btn btn-lg btn-warning active">In Progress Tasks</button>
-				<a href="{{ url_for('completed_tasks', department_id = department.id)}}"
+				<a href="{{ url_for('taskpb.completed_tasks', department_id = department.id)}}"
 					class="btn btn-lg btn-success">Completed Tasks</a>
 			</div>
 		</div>
@@ -79,11 +79,11 @@
 					{% endif %}
 
 					<p><strong>Result:</strong>
-					<form method="post" action="{{ url_for('add_task_result', task_id=task.id) }}">
+					<form method="post" action="{{ url_for('taskpb.add_task_result', task_id=task.id) }}">
 						<textarea name="result" class="form-control" placeholder="Enter the result here"></textarea>
 						<div class="card-footer text-end">
 							<button class="btn btn-outline-success btn-sm">Task completed</button>
-							<a href="{{ url_for('delete_task', task_id=task.id) }}"
+							<a href="{{ url_for('taskpb.delete_task', task_id=task.id) }}"
 								class="btn btn-danger btn-sm">Delete</a>
 						</div>
 					</form>
@@ -99,7 +99,7 @@
 			<div class="alert alert-warning" role="alert">
 				No completed tasks found.
 			</div>
-			<a href="{{ url_for('add_task', department_id=department.id) }}" class="btn btn-primary btn-lg">Add New
+			<a href="{{ url_for('taskpb.add_task', department_id=department.id) }}" class="btn btn-primary btn-lg">Add New
 				Task</a>
 		</div>
 		{% endif %}

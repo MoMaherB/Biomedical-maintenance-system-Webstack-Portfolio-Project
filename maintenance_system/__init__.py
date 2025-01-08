@@ -16,3 +16,13 @@ login_manager = LoginManager(app)
 
 from maintenance_system import routes
 
+from maintenance_system.API.api import api
+app.register_blueprint(api)
+
+from maintenance_system.TheRoutes.hospital_routes import hospitalpb
+app.register_blueprint(hospitalpb)
+
+from maintenance_system.TheRoutes.task_routes import taskpb
+app.register_blueprint(taskpb)
+
+
