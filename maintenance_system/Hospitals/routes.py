@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request, Blueprint
 from maintenance_system import db
 from maintenance_system.models import Hospital
-from maintenance_system.forms import HospitalForm
+from .forms import HospitalForm
 
 hospitalpb = Blueprint('hospitalpb', __name__)
 

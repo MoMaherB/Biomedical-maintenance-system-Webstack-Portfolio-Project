@@ -1,8 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from maintenance_system import db
 from maintenance_system.models import Department, Task, Machine, Model, Device, User, Hospital
-from maintenance_system.forms import TaskForm
-from maintenance_system.default_time import default_time
+from .forms import TaskForm
+from maintenance_system.Main.default_time import default_time
 
 
 taskpb = Blueprint('taskpb', __name__)

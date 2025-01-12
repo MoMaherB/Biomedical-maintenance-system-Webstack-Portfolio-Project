@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, Blueprint
 from maintenance_system import db, bycrypt
 from maintenance_system.models import User
-from maintenance_system.forms import UserForm, LoginForm
+from .forms import UserForm, LoginForm
 from flask_login import login_user, current_user, logout_user, login_required
 
 
