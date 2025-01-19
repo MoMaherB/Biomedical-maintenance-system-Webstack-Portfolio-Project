@@ -6,7 +6,7 @@ from maintenance_system.models import Hospital
 
 class HospitalForm(FlaskForm):
     name = StringField('Hospital Name', validators=[DataRequired(), Length(min=2, max=50)])
-    governorate = StringField('Governorate', validators=[DataRequired(), Length(min=5, max=50)])
+    governorate = StringField('Governorate', validators=[DataRequired(), Length(min=4, max=50)])
     submit = SubmitField('Add')
 
     def validate_name(self, name):

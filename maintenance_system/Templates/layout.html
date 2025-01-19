@@ -25,10 +25,23 @@
 						<a class="nav-link active" aria-current="page"
 							href="{{ url_for('departmentsbp.departments') }}">Departments</a>
 					</li>
+
 					{% if current_user.is_authenticated %}
+					{% if current_user.username != "Admin" %}
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('usersbp.user', id=current_user.id) }}">profile</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link"
+							href="{{ url_for('taskpb.in_progress_tasks', department_id=current_user.department_id) }}">Tasks</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link"
+							href="{{ url_for('taskpb.add_task', department_id=current_user.department_id) }}">Add
+							task</a>
+					</li>
+					{% endif %}
+
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('usersbp.logout') }}">logout</a>
 					</li>

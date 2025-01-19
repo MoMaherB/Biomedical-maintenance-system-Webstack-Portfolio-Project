@@ -9,8 +9,13 @@ hospitalpb = Blueprint('hospitalpb', __name__)
 @hospitalpb.route('/hospitals')
 def hospitals():
     """Get all hospitals"""
+    governorates = [
+    hospital.governorate 
+    for hospital in db.session.query(Hospital.governorate).group_by(Hospital.governorate).all()]
     hospitals = Hospital.query.all()
-    return render_template('hospitals.html', hospitals=hospitals)
+    if request.args.get('governorate'):
+        hospitals = [hospital for hospital in hospitals if hospital.governorate == request.args.get('governorate')]
+    return render_template('hospitals.html', hospitals=hospitals, governorates=governorates)
 
 
 @hospitalpb.route('/hospitals/<int:id>')

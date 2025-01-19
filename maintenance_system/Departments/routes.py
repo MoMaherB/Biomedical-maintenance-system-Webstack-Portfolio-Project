@@ -86,7 +86,7 @@ def update_department(id):
             flash('Department name already exists. Please choose another one.', 'danger')
         return redirect(url_for('departmentsbp.departments'))
     
-@departmentsbp.route('/department/<int:department_id>/add_member', methods=['GET', 'POST'])
+@departmentsbp.route('/departments/<int:department_id>/add_member', methods=['GET', 'POST'])
 def add_member(department_id):
     """Add a member to a department"""
     department = Department.query.get_or_404(department_id)

@@ -9,8 +9,28 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<h1 class="text-center">Hospitals</h1>
-					<a href="{{ url_for('hospitalpb.add_hospital') }}"><button type="button" class="btn btn-info btn-md">Add
+					{% if current_user.username == "Admin" %}
+					<a href="{{ url_for('hospitalpb.add_hospital') }}"><button type="button"
+							class="btn btn-info btn-md">Add
 							New Hospital</button></a>
+					{% endif %}
+				</div>
+				<div class="col-md-8 col-lg-12 mt-4 mb-4">
+					<form method="GET" action="{{ url_for('hospitalpb.hospitals') }}">
+						<div class="mb-3 ">
+							<select id="governorate" name="governorate" class="form-select"
+								onchange="this.form.submit()">
+								<option value="">Select Governorate</option>
+								{% for governorate in governorates %}
+								<option value="{{ governorate }}" {% if request.args.get('governorate')==governorate
+									%}selected{% endif %}>
+									{{ governorate }}
+								</option>
+								{% endfor %}
+							</select>
+						</div>
+
+					</form>
 				</div>
 				{% for hospital in hospitals %}
 				<div class="row justify-content-center">
@@ -19,18 +39,27 @@
 							<div class="col-md-8 col-lg-12 mt-4 mb-4">
 								<h4> {{hospital.name}}</h4>
 								<h5> {{hospital.governorate}}</h5>
+								{% if hospital.machines %}
 								<h6> Machines </h6>
-								{% for machine in hospital.machines%}
-									<p>{{machine.model.name}} - {{machine.serial_number}}</p>
-								{% endfor %}
+								<div class="list-group">
+									{% for machine in hospital.machines%}
+									<li class="list-group-item list-group-item-action"> {{ machine.serial_number }}
+										- {{ machine.model.name }} - {{machine.contract_name }}</li>
+									{% endfor %}
+								</div>
+								{% else %}
+								<p>There is no machines in this hospital</p>
+								{% endif %}
+								{% if current_user.username == "Admin" %}
 								<br>
 								<button type="button" class="btn btn-danger custom-button mt-1" data-bs-toggle="modal"
 									data-bs-target="#deleteHospital{{ hospital.id }}">Delete
 									Hospital</button>
-								<a href="{{ url_for('hospitalpb.update_hospital', id=hospital.id) }}"><button type="button"
-										class="btn btn-warning btn-custom mt-1">Update
+								<a href="{{ url_for('hospitalpb.update_hospital', id=hospital.id) }}"><button
+										type="button" class="btn btn-warning btn-custom mt-1">Update
 										Hospital</button></a>
 							</div>
+							{% endif %}
 
 						</div>
 					</div>
@@ -52,7 +81,8 @@
 								</div>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('hospitalpb.delete_hospital', id=hospital.id) }}">
+								<form method="POST"
+									action="{{ url_for('hospitalpb.delete_hospital', id=hospital.id) }}">
 									<button type="submit" class="btn btn-danger mt-3">Delete {{
 										hospital.name }} Hospital !!!</button>
 								</form>

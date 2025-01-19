@@ -4,6 +4,7 @@
 
 <div class="row justify-content-center">
 	{% for user in users %}
+	{% if user.rank != "Admin" %}
 	<div class="col-md-8 col-lg-8 mt-4 mb-4">
 		<div class="card p-3 shadow-sm">
 			<div class="row align-items-center">
@@ -27,6 +28,7 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 	{% endfor %}
 </div>
 
