@@ -10,6 +10,7 @@ usersbp = Blueprint('usersbp', __name__)
 
 @usersbp.route('/register', methods=['GET', 'POST'])
 def register():
+    """Register a new user"""
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = UserForm()
@@ -22,10 +23,12 @@ def register():
         return redirect(url_for('usersbp.login'))
     return render_template('register.html', form=form)
 
+
 @usersbp.route('/login', methods=['GET', 'POST'])
 def login():
+    """Login a user"""
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('usersbp.users', id=current_user.id))
     form = LoginForm()
     form.submit.label.text = 'Login'
     print(form.errors)
@@ -35,22 +38,33 @@ def login():
         if user and bycrypt.check_password_hash(user.password, form.password.data):
             flash(f'Hello {user.username}. You are logged in succsessfully!', 'success')
             login_user(user)
-            return redirect(url_for('usersbp.user',id=current_user.id))
+            return redirect(url_for('usersbp.user', id=current_user.id))
         else:
             flash('Login Unsuccessfull! Please check username and password', 'danger')
     return render_template('login.html', form=form)
+
+@login_required
 @usersbp.route('/logout')
 def logout():
+    """Logout a user"""
     logout_user()
     flash('You are logged out successfully!', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 
+@login_required
 @usersbp.route('/users')
 def users():
+    """Get all users"""
+    if not current_user.is_authenticated:
+        return redirect(url_for('usersbp.login'))
     users = User.query.all()
     return render_template('users.html', users=users)
 
+@login_required
 @usersbp.route('/users/<int:id>')
 def user(id):
+    """Get a user by id"""
+    if not current_user.is_authenticated:
+        return redirect(url_for('usersbp.login'))
     user = User.query.get_or_404(id)
     return render_template('user.html', user=user)

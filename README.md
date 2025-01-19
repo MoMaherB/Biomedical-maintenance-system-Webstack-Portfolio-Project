@@ -51,9 +51,10 @@ Contributions are welcome! Please fork the repository and create a pull request 
 The application also provides a RESTful API for managing biomedical equipment and maintenance activities. The base URL for the API is `http://localhost:5000/api`.
 
 ### Endpoints
-
 - **GET /api/users**: Retrieve a list of all users.
 - **GET /api/users/{id}**: Retrieve details of a specific user.
+- **POST /api/register**: Register new user.
+- **POST /api/login**: Login with existing user. 
 - **GET /api/departments**: Retrieve a list of all departments.
 - **GET /api/departments/{id}**: Retrieve details of a specific department.
 - **POST /api/departments**: Add a new department.
@@ -66,6 +67,16 @@ The application also provides a RESTful API for managing biomedical equipment an
 - **GET /api/hospitals/{id}**: Retrieve details of a specific hospital.
 
 ### Example Requests
+
+#### Add new user
+```bash
+curl -X POST http://localhost:5000/api/register -H "Content-Type: application/json" -d '{"username": "UserTest", "email": "test.maher@email.com", "password": "password"}'
+```
+
+#### Login with existing user
+```bash
+curl -X POST http://localhost:5000/api/login -H "Content-Type: application/json" -d '{"email": "Mohamed@maher.com, "password": "password"}'
+```
 
 #### Get all users
 ```bash

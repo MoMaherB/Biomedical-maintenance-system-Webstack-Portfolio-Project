@@ -15,6 +15,13 @@
 						data-bs-target="#addDevice">Add
 						New Device</button>
 				</div>
+				{% if not devices%}
+				<div class="col-md-8 col-lg-12 mt-4 mb-4">
+					<div class="alert alert-warning" role="alert">
+						No devices found.
+					</div>
+				</div>
+				{% endif %}
 				{% for device in devices %}
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<div class="card p-3 shadow-sm">

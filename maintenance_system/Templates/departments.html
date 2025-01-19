@@ -13,13 +13,21 @@
 						data-bs-target="#addDepartment">Add
 						New Department</button>
 				</div>
+				{% if not departments%}
+				<div class="col-md-8 col-lg-12 mt-4 mb-4">
+					<div class="alert alert-warning" role="alert">
+						No departments found.
+					</div>
+				</div>
+				{% endif %}
 				{% for department in departments %}
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<div class="card p-3 shadow-sm">
 						<div class="row align-items-center">
 							<!-- Left Side: User Information -->
 							<div class="col-lg-8 col-12">
-								<a href="{{ url_for('devicesbp.devices', department_id = department.id)}}" class="anchor-custom">
+								<a href="{{ url_for('devicesbp.devices', department_id = department.id)}}"
+									class="anchor-custom">
 									<h4 class="mb-1 text-center">{{department.name}} Department</h4>
 								</a>
 								<br>
@@ -86,7 +94,8 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('departmentsbp.update_department', id = department.id)}}">
+								<form method="POST"
+									action="{{ url_for('departmentsbp.update_department', id = department.id)}}">
 									{{ form.hidden_tag() }} <!-- CSRF token -->
 
 									<!-- Department Name Field -->
@@ -127,7 +136,8 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('departmentsbp.delete_department', id=department.id) }}">
+								<form method="POST"
+									action="{{ url_for('departmentsbp.delete_department', id=department.id) }}">
 									<button type="submit" class="btn btn-danger mt-3">Delete {{
 										department.name }} Department !!!</button>
 								</form>

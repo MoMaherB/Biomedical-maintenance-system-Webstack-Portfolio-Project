@@ -5,10 +5,10 @@ from maintenance_system.models import Department
 
 
 class DepartmentForm(FlaskForm):
-	name = StringField('Department Name', validators=[DataRequired(), Length(min=2, max=20)])
-	submit = SubmitField('Add')
+    name = StringField('Department Name', validators=[DataRequired(), Length(min=2, max=20)])
+    submit = SubmitField('Add')
 
-	def validate_name(self, name):
-		department = Department.query.filter_by(name=name.data.strip()).first()
-		if department:
-			raise ValidationError('This department name already exists. Please choose another one.')
+    def validate_name(self, name):
+        department = Department.query.filter_by(name=name.data.strip()).first()
+        if department:
+            raise ValidationError('This department name already exists. Please choose another one.')

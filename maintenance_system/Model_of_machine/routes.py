@@ -6,16 +6,18 @@ from .forms import ModelForm
 modelsbp = Blueprint('modelsbp', __name__)
 
 
-
 @modelsbp.route('/devices/<int:device_id>/models/', methods=['GET'])
 def models(device_id):
+    """Show all models for a specific device"""
     form = ModelForm()
     device = Device.query.get_or_404(device_id)
     models = device.models
     return render_template('models.html', device=device, models=models, form=form)
 
+
 @modelsbp.route('/devices/<int:device_id>/add_model', methods=['GET', 'POST'])
 def add_model(device_id):
+    """Add a new model for a specific device"""
     device = Device.query.get_or_404(device_id)
     models = device.models
     form = ModelForm()
@@ -30,9 +32,11 @@ def add_model(device_id):
     else:
         flash('Device name already exists. Please choose another one.', 'danger')
         return render_template('models.html', device=device, models=models, form=form)
-    
+
+
 @modelsbp.route('/delete_model/<int:model_id>', methods=['POST'])
 def delete_model(model_id):
+    """Delete a specific model"""
     model = Model.query.get_or_404(model_id)
     device = model.device
     for machine in model.machines:
@@ -45,6 +49,7 @@ def delete_model(model_id):
 
 @modelsbp.route('/update_model/<int:model_id>', methods=['GET', 'POST'])
 def update_model(model_id):
+    """Update a specific model"""
     model = Model.query.get_or_404(model_id)
     form = ModelForm()
     if request.method == 'GET':
@@ -60,6 +65,5 @@ def update_model(model_id):
             flash('No changes detected. Nothing to update.', 'info')
         else:
             flash('Model name already exists. Please choose another one.', 'danger')
-        
+
         return redirect(url_for('modelsbp.models', device_id=model.device_id))
-    

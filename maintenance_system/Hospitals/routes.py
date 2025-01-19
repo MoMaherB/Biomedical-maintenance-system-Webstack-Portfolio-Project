@@ -6,19 +6,23 @@ from .forms import HospitalForm
 hospitalpb = Blueprint('hospitalpb', __name__)
 
 
-
 @hospitalpb.route('/hospitals')
 def hospitals():
+    """Get all hospitals"""
     hospitals = Hospital.query.all()
     return render_template('hospitals.html', hospitals=hospitals)
 
+
 @hospitalpb.route('/hospitals/<int:id>')
 def hospital(id):
+    """Get a hospital by id"""
     hospital = Hospital.query.get_or_404(id)
     return render_template('hospital.html', hospital=hospital)
 
+
 @hospitalpb.route('/add_hospital', methods=['GET', 'POST'])
 def add_hospital():
+    """Add a new hospital"""
     form_name = 'Add'
     form = HospitalForm()
     if form.validate_on_submit():
@@ -29,16 +33,20 @@ def add_hospital():
         return redirect(url_for('hospitalpb.hospitals'))
     return render_template('add_hospital.html', form=form, form_name=form_name)
 
+
 @hospitalpb.route('/delete_hospital/<int:id>', methods=['POST'])
 def delete_hospital(id):
+    """Delete a hospital by id"""
     hospital = Hospital.query.get_or_404(id)
     db.session.delete(hospital)
     db.session.commit()
     flash(f'Hospital {hospital.name} has been deleted successfully!', 'success')
     return redirect(url_for('hospitalpb.hospitals'))
 
+
 @hospitalpb.route('/update_hospital/<int:id>', methods=['GET', 'POST'])
 def update_hospital(id):
+    """Update a hospital by id"""
     hospital = Hospital.query.get_or_404(id)
     form_name = 'Update'
     form = HospitalForm()

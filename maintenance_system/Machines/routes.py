@@ -8,6 +8,7 @@ machinesbp = Blueprint('machinesbp', __name__)
 
 @machinesbp.route('/models/<int:model_id>/machines/', methods=['GET'])
 def machines(model_id):
+    """Show all machines for a specific model"""
     model = Model.query.get_or_404(model_id)
     machines = model.machines
     governorates = [
@@ -25,8 +26,10 @@ def machines(model_id):
     return render_template('machines.html',
                 model=model, machines=machines, governorates=governorates, hospitals=hospitals)
 
+
 @machinesbp.route('/models/<int:model_id>/add_machine', methods=['GET', 'POST'])
 def add_machine(model_id):
+    """Add a new machine for a specific model"""
     model = Model.query.get_or_404(model_id)
     form = MachineForm()
     name = 'Add'
@@ -41,7 +44,7 @@ def add_machine(model_id):
                     contract_name=form.contract_name.data,
                     contract_start_date=form.contract_start_date.data,
                     contract_end_date=form.contract_end_date.data,
-                    hospital_id = form.hospital.data)
+                    hospital_id=form.hospital.data)
         db.session.add(machine)
         db.session.commit()
         flash(f'Machine  number {form.serial_number.data} for {model.name} {model.device.name} has been created successfully!', 'success')
@@ -49,22 +52,28 @@ def add_machine(model_id):
 
     return render_template('add_machine.html', model=model, form=form, name=name)
 
+
 @machinesbp.route('/machines/<int:machine_id>')
 def machine(machine_id):
+    """Show a specific machine"""
     machine = Machine.query.get_or_404(machine_id)
     return render_template('machine.html', machine=machine)
 
+
 @machinesbp.route('/delete_machine/<int:machine_id>', methods=['POST'])
 def delete_machine(machine_id):
+    """Delete a specific machine"""
     machine = Machine.query.get_or_404(machine_id)
     model = machine.model
     db.session.delete(machine)
     db.session.commit()
     flash(f'Machine {machine.serial_number} has been deleted successfully!', 'success')
     return redirect(url_for('machinesbp.machines', model_id=model.id))
-    
+
+
 @machinesbp.route('/update_machine/<int:machine_id>', methods=['GET', 'POST'])
 def update_machine(machine_id):
+    """Update a specific machine"""
     machine = Machine.query.get_or_404(machine_id)
     form = MachineForm()
     name = 'Update'
