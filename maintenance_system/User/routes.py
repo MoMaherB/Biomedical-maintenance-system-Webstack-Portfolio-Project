@@ -38,6 +38,8 @@ def login():
         if user and bycrypt.check_password_hash(user.password, form.password.data):
             flash(f'Hello {user.username}. You are logged in succsessfully!', 'success')
             login_user(user)
+            if current_user.rank == 'Admin':
+                return redirect(url_for('usersbp.users'))
             return redirect(url_for('usersbp.user', id=current_user.id))
         else:
             flash('Login Unsuccessfull! Please check username and password', 'danger')

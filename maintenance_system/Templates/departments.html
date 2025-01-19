@@ -9,9 +9,11 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<h1 class="text-center">Departments</h1>
+					{% if current_user.username == "Admin"%}
 					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
 						data-bs-target="#addDepartment">Add
 						New Department</button>
+					{% endif%}
 				</div>
 				{% if not departments%}
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
@@ -45,9 +47,11 @@
 
 								{% else %}
 								<p> There is no members in this department</p>
+								{% if current_user.username == "Admin"%}
 								<button type="button" data-bs-toggle="modal"
 									data-bs-target="#addMember{{ department.id }}" class="btn btn-info btn-md mb-4">Add
 									New Member</button>
+								{% endif %}
 								{% endif %}
 								<br>
 								<h5>Department Devices: </h5>
@@ -67,6 +71,7 @@
 
 								<br>
 								<hr>
+								{% if current_user.username == "Admin"%}
 								<div>
 									<button type="button" class="btn btn-warning btn-custom mt-1" data-bs-toggle="modal"
 										data-bs-target="#updateDepartment{{ department.id }}">Update
@@ -76,6 +81,7 @@
 										data-bs-target="#deleteDepartment{{ department.id }}">Delete
 										Department </button>
 								</div>
+								{% endif%}
 							</div>
 							<!-- Right Side: User Photo -->
 							<div class="col-lg-4 text-center mt-1">
@@ -160,7 +166,8 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="post" action="{{ url_for('departmentsbp.add_member', department_id=department.id) }}">
+								<form method="post"
+									action="{{ url_for('departmentsbp.add_member', department_id=department.id) }}">
 									<label for="member">Select Member:</label>
 									{% for user in users %}
 									<div>

@@ -11,12 +11,16 @@
 					<a href="{{ url_for('departmentsbp.department', id = department.id) }}" class="anchor-custom">
 						<h1 class="text-center mb-4">{{ department.name }}</h1>
 					</a>
-					<button type="button" data-bs-toggle="modal" data-bs-target="#addMember{{ department.id }}"
-						class="btn btn-info btn-md">Add
-						New Member</button>
-					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
-						data-bs-target="#addDevice">Add
-						New Device</button>
+					{% if current_user.username == "Admin" %}
+					<div>
+						<button type="button" data-bs-toggle="modal" data-bs-target="#addMember{{ department.id }}"
+							class="btn btn-info btn-md">Add
+							New Member</button>
+						<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
+							data-bs-target="#addDevice">Add
+							New Device</button>
+					</div>
+					{% endif %}
 				</div>
 				{% if not devices%}
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
@@ -51,8 +55,8 @@
 								<p>There is no models</p>
 								{% endif%}
 								<hr>
+								{% if current_user.username == "Admin" %}
 								<div>
-									{# {{ url_for('update_department', id = department.id)}} #}
 									<button type="button" class="btn btn-warning btn-custom mt-1" data-bs-toggle="modal"
 										data-bs-target="#updateDevice{{ device.id }}">Update
 										Device</button>
@@ -60,6 +64,7 @@
 										data-bs-toggle="modal" data-bs-target="#deleteDevice{{ device.id }}">Delete
 										Device</button>
 								</div>
+								{% endif %}
 							</div>
 							<!-- Right Side: User Photo -->
 							<div class="col-lg-4 text-center mt-1">

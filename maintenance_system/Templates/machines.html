@@ -16,9 +16,11 @@
 						class="text-decoration-none">
 						<h6 class="text-secondary">{{ model.device.department.name }} Department</h6>
 					</a>
+					{% if current_user.username == "Admin" %}
 					<a href="{{ url_for('machinesbp.add_machine', model_id=model.id) }}" class="btn btn-info btn-sm mt-3">
 						Add New Machine
 					</a>
+					{% endif %}
 				</div>
 				<!-- Form for selecting governorate -->
 				<form method="GET" action="{{ url_for('machinesbp.machines', model_id=model.id) }}">
