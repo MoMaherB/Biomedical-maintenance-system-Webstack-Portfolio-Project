@@ -45,6 +45,9 @@
 
 								{% else %}
 								<p> There is no members in this department</p>
+								<button type="button" data-bs-toggle="modal"
+									data-bs-target="#addMember{{ department.id }}" class="btn btn-info btn-md mb-4">Add
+									New Member</button>
 								{% endif %}
 								<br>
 								<h5>Department Devices: </h5>
@@ -76,8 +79,8 @@
 							</div>
 							<!-- Right Side: User Photo -->
 							<div class="col-lg-4 text-center mt-1">
-								<img src="{{ url_for('static', filename='images/profile.jpg')}}" alt="User Photo"
-									class="rounded-photo mt-2">
+								<img src="{{ url_for('static', filename='images/' + department_picture) }}"
+									alt="Department Photo" class="rounded-photo mt-2">
 							</div>
 						</div>
 					</div>
@@ -121,8 +124,8 @@
 					</div>
 				</div>
 				<!-- Delete Department Modal -->
-				<div class="modal fade" id="deleteDepartment{{ department.id }}" data-bs-keyboard="false" tabindex="-1"
-					aria-labelledby="deleteDepartmentLabel" aria-hidden="true">
+				<div class="modal fade" id="deleteDepartment{{ department.id }}" data-bs-keyboard="false"
+					data-bs-backdrop="static" tabindex="-1" aria-labelledby="deleteDepartmentLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -145,49 +148,77 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- Add Member Modal -->
+				<div class="modal fade" id="addMember{{ department.id }}" data-bs-backdrop="static"
+					data-bs-keyboard="false" tabindex="-1" aria-labelledby="addMemberLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="addMemberLabel">Add members</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form method="post" action="{{ url_for('departmentsbp.add_member', department_id=department.id) }}">
+									<label for="member">Select Member:</label>
+									{% for user in users %}
+									<div>
+										<input type="checkbox" name="user" value="{{ user.id }}"
+											id="user_{{ user.id }}">
+										<label for="user_{{ user.id }}">{{ user.username }}</label>
+									</div>
+									{% endfor %}
+									<input type="submit" value="Add Members" class="btn btn-primary mt-3">
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 				{% endfor %}
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<!-- Add Department Modal -->
-<div class="modal fade" id="addDepartment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-	aria-labelledby="addDepartmentLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="addDepartmentLabel">Add
-					New Department</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<form method="POST" action="{{ url_for('departmentsbp.add_department') }}">
-					{{ form.hidden_tag() }} <!-- CSRF token -->
-
-					<!-- Department Name Field -->
-					{{ form.name.label(class="form-label") }}
-					{% if form.name.errors %}
-					{{ form.name(class="form-control is-invalid") }}
-					<div class="invalid-feedback">
-						{% for error in form.name.errors %}
-						{{ error }}
-						{% endfor %}
-					</div>
-					{% else %}
-					{{ form.name(class="form-control mt-3") }}
-					{% endif %}
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary">Add
-							Department</button>
-					</div>
-				</form>
-
 
 			</div>
 		</div>
 	</div>
-</div>
 
-{% endblock%}
+
+	<!-- Add Department Modal -->
+	<div class="modal fade" id="addDepartment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="addDepartmentLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="addDepartmentLabel">Add
+						New Department</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form method="POST" action="{{ url_for('departmentsbp.add_department') }}">
+						{{ form.hidden_tag() }} <!-- CSRF token -->
+
+						<!-- Department Name Field -->
+						{{ form.name.label(class="form-label") }}
+						{% if form.name.errors %}
+						{{ form.name(class="form-control is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.name.errors %}
+							{{ error }}
+							{% endfor %}
+						</div>
+						{% else %}
+						{{ form.name(class="form-control mt-3") }}
+						{% endif %}
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">Add
+								Department</button>
+						</div>
+					</form>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% endblock%}

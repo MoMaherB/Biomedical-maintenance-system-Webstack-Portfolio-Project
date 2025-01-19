@@ -14,9 +14,12 @@
 					</a>
 					<p class="text-muted mb-1">Email: {{user.email}}</p>
 					<p class="text-muted mb-1">Role: {{user.rank}}</p>
-					<p class="text-muted mb-1">Joined: Jan 1, 2024</p>
-					<p class="text-muted mb-1">Department: <a href="#">{{user.department.name}}</a>
+					{% if user.department %}
+					<p class="text-muted mb-1">Department: <a href="{{ url_for('devicesbp.devices', department_id=user.department_id) }}">{{user.department.name}}</a>
 					</p>
+					{% else %}
+					<p class="text-muted mb-1">Department: No Department</p>
+					{% endif %}
 				</div>
 				<!-- Right Side: User Photo -->
 				<div class="col-md-4 col-12 text-center">

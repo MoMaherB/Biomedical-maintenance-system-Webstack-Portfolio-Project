@@ -8,7 +8,7 @@ with app.app_context():
 
     print("Database created")
     hash_password = generate_password_hash("Adminpassword").decode('utf-8')
-    admin = User(username="Admin", email="ff@gmal.com", password=hash_password, rank="Senior")
+    admin = User(username="Admin", email="admin@maintenance.com", password=hash_password, rank="Senior")
 
     db.session.add(admin)
     db.session.commit()

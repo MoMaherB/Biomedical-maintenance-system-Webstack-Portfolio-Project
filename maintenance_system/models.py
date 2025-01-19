@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
 	hospitals = db.relationship('Hospital', secondary='user_hospital', backref='users', lazy='dynamic')
 	
 	def __repr__(self):
-		return f'<User: {self.username}> - Email: {self.email}, Rank: {self.rank}, Department: {self.department.name}' 
+		return f'<User: {self.username}> - Email: {self.email}, Rank: {self.rank}' 
 	
 class Department(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

@@ -9,8 +9,11 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-12 mt-4 mb-4">
 					<a href="{{ url_for('departmentsbp.department', id = department.id) }}" class="anchor-custom">
-						<h1 class="text-center">{{ department.name }}</h1>
+						<h1 class="text-center mb-4">{{ department.name }}</h1>
 					</a>
+					<button type="button" data-bs-toggle="modal" data-bs-target="#addMember{{ department.id }}"
+						class="btn btn-info btn-md">Add
+						New Member</button>
 					<button type="button" class="btn btn-info btn-md" data-bs-toggle="modal"
 						data-bs-target="#addDevice">Add
 						New Device</button>
@@ -79,7 +82,8 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('devicesbp.update_device', device_id = device.id)}}">
+								<form method="POST"
+									action="{{ url_for('devicesbp.update_device', device_id = device.id)}}">
 									{{ form.hidden_tag() }} <!-- CSRF token -->
 
 									<!-- Department Name Field -->
@@ -120,7 +124,8 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form method="POST" action="{{ url_for('devicesbp.delete_device', device_id=device.id) }}">
+								<form method="POST"
+									action="{{ url_for('devicesbp.delete_device', device_id=device.id) }}">
 									<button type="submit" class="btn btn-danger mt-3">Delete {{
 										device.name }} Device !!!</button>
 								</form>
@@ -133,6 +138,31 @@
 		</div>
 	</div>
 
+	<!-- Add Member Modal -->
+	<div class="modal fade" id="addMember{{ department.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+		tabindex="-1" aria-labelledby="addMemberLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="addMemberLabel">Add members</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form method="post" action="{{ url_for('departmentsbp.add_member', department_id=department.id) }}">
+						<label for="member">Select Member:</label>
+						{% for user in users %}
+						<div>
+							<input type="checkbox" name="user" value="{{ user.id }}" id="user_{{ user.id }}">
+							<label for="user_{{ user.id }}">{{ user.username }}</label>
+						</div>
+						{% endfor %}
+						<input type="submit" value="Add Members" class="btn btn-primary mt-3">
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Add Department Modal -->
 	<div class="modal fade" id="addDevice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="addDeviceLabel" aria-hidden="true">

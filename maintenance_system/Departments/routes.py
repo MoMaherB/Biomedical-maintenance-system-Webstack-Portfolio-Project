@@ -1,7 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash, Blueprint
 from maintenance_system import db
-from maintenance_system.models import Department
+from maintenance_system.models import Department, User
 from .forms import DepartmentForm
+from random import choice
 
 
 departmentsbp = Blueprint('departmentsbp', __name__)
@@ -12,7 +13,17 @@ def departments():
     """Get all departments"""
     form = DepartmentForm()
     departments = Department.query.all()
-    return render_template('departments.html', departments=departments, form=form)
+    users = User.query.all()
+    department_pics = []
+    for department in departments:
+        for device in department.devices:
+            for model in device.models:
+                department_pics.append(model.picture)
+
+    department_picture = choice(department_pics) if department_pics else 'default.jpg'
+
+    
+    return render_template('departments.html', departments=departments, form=form, department_picture=department_picture, users=users)
 
 
 @departmentsbp.route('/departments/<int:id>/')
@@ -74,3 +85,17 @@ def update_department(id):
         else:
             flash('Department name already exists. Please choose another one.', 'danger')
         return redirect(url_for('departmentsbp.departments'))
+    
+@departmentsbp.route('/department/<int:department_id>/add_member', methods=['GET', 'POST'])
+def add_member(department_id):
+    """Add a member to a department"""
+    department = Department.query.get_or_404(department_id)
+    if request.method == 'POST':
+        for user_id in request.form.values():
+            member = User.query.get_or_404(user_id)
+            print(member)
+            department.members.append(member)
+        db.session.commit()
+        flash('Members added successfully!', 'success')
+    return redirect(url_for('departmentsbp.departments'))
+

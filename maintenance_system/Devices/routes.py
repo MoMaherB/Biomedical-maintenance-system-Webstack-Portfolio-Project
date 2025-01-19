@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash, Blueprint
 from maintenance_system import db
-from maintenance_system.models import Department, Device
+from maintenance_system.models import Department, Device, User
 from .forms import DeviceForm
 
 devicesbp = Blueprint('devicesbp', __name__)
@@ -10,9 +10,11 @@ devicesbp = Blueprint('devicesbp', __name__)
 def devices(department_id):
     """Get all devices in a department"""
     department = Department.query.get_or_404(department_id)
+    users = User.query.all()
     form = DeviceForm()
     devices = department.devices
-    return render_template('devices.html', department=department, devices=devices, form=form)
+    print(department.members)
+    return render_template('devices.html', department=department, devices=devices, form=form, users=users)
 
 
 @devicesbp.route('/dpeartments/<int:department_id>/add_device', methods=['GET', 'POST'])
