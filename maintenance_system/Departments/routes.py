@@ -20,7 +20,7 @@ def departments():
             for model in device.models:
                 department_pics.append(model.picture)
 
-    department_picture = choice(department_pics) if department_pics else 'default.jpg'
+    department_picture = choice(department_pics) if department_pics else 'device_model.jpg'
 
     
     return render_template('departments.html', departments=departments, form=form, department_picture=department_picture, users=users)

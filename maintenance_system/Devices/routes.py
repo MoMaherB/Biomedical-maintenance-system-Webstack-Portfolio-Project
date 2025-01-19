@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, flash, Blueprint
 from maintenance_system import db
 from maintenance_system.models import Department, Device, User
 from .forms import DeviceForm
+from random import choice
 
 devicesbp = Blueprint('devicesbp', __name__)
 
@@ -13,8 +14,14 @@ def devices(department_id):
     users = User.query.all()
     form = DeviceForm()
     devices = department.devices
-    print(department.members)
-    return render_template('devices.html', department=department, devices=devices, form=form, users=users)
+    device_pics = []
+    for device in devices:
+        for model in device.models:
+            device_pics.append(model.picture)
+
+    device_picture = choice(device_pics) if device_pics else 'device_model.jpg'
+    
+    return render_template('devices.html', department=department, devices=devices, form=form, users=users, device_picture=device_picture)
 
 
 @devicesbp.route('/dpeartments/<int:department_id>/add_device', methods=['GET', 'POST'])

@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, flash, Blueprint
 from maintenance_system import db
 from maintenance_system.models import Device, Model
 from .forms import ModelForm
+from random import choice
 
 modelsbp = Blueprint('modelsbp', __name__)
 
@@ -12,6 +13,7 @@ def models(device_id):
     form = ModelForm()
     device = Device.query.get_or_404(device_id)
     models = device.models
+
     return render_template('models.html', device=device, models=models, form=form)
 
 
