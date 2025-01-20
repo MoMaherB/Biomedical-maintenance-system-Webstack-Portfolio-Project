@@ -100,4 +100,3 @@ def update_user(id):
         flash('User has been updated successfully!', 'success')
         return redirect(url_for('usersbp.user', id=user.id))
     return render_template('update_user.html', form=form)
-     

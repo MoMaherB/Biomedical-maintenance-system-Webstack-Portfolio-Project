@@ -4,9 +4,9 @@ body {
 }
 
 .rounded-photo {
-	width: 200px;
+	width: 250px;
 	/* Adjust the size as needed */
-	height: 200px;
+	height: 250px;
 	object-fit: cover;
 	border-radius: 50%;
 	border: 3px solid #ddd;
@@ -59,20 +59,26 @@ body {
 	top: 20px;
 	left: 50%;
 	transform: translateX(-50%);
-	z-index: 1050; /* High z-index to appear above other elements */
-	width: 90%; /* Adjust width as needed */
+	z-index: 1050;
+	/* High z-index to appear above other elements */
+	width: 90%;
+	/* Adjust width as needed */
 	max-width: 500px;
 }
 
 
 .anchor-custom {
-	text-decoration: none; /* Removes underline */
-	color: black; /* Sets default color */
-	cursor: pointer; /* Changes cursor to pointer */
-	transition: color 0.3s ease; /* Smooth color transition */
-  }
-  
-  .anchor-custom:hover {
-	color: var(--bs-success); /* Changes color to Bootstrap success color */
-  }
-  
+	text-decoration: none;
+	/* Removes underline */
+	color: black;
+	/* Sets default color */
+	cursor: pointer;
+	/* Changes cursor to pointer */
+	transition: color 0.3s ease;
+	/* Smooth color transition */
+}
+
+.anchor-custom:hover {
+	color: var(--bs-success);
+	/* Changes color to Bootstrap success color */
+}

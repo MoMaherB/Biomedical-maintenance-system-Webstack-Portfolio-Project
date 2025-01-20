@@ -85,6 +85,9 @@
 							</div>
 							<!-- Right Side: User Photo -->
 							<div class="col-lg-4 text-center mt-1">
+								{% set department_device = department.devices | random if department.devices else [] %}
+								{% set department_picture = (department_device.models | random).picture if
+								department_device.models else 'device_model.jpg' %}
 								<img src="{{ url_for('static', filename='images/' + department_picture) }}"
 									alt="Department Photo" class="rounded-photo mt-2">
 							</div>

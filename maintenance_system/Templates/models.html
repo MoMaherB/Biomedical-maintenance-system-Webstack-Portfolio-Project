@@ -95,6 +95,8 @@
 									<br>
 									{{form.manufacturer.label(class="form-label")}}
 									{{form.manufacturer(class="form-control mt-3", value=model.manufacturer)}}
+									{{ form.picture.label(class="form-label")}}
+									{{ form.picture(class="form-control mt-3")}}
 									<div class="modal-footer">
 										<button type="submit" class="btn btn-primary">Update
 											Model</button>
@@ -144,7 +146,8 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form method="POST" action="{{ url_for('modelsbp.add_model', device_id=device.id) }}">
+					<form method="POST" action="{{ url_for('modelsbp.add_model', device_id=device.id) }}"
+						enctype="multipart/form-data">
 						{{ form.hidden_tag() }} <!-- CSRF token -->
 
 						<!-- Department Name Field -->
@@ -162,6 +165,9 @@
 						<br>
 						{{form.manufacturer.label(class="form-label")}}
 						{{form.manufacturer(class="form-control mt-3")}}
+						<br>
+						{{form.picture.label(class="form-label")}}
+						{{form.picture(class="form-control mt-3")}}
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">Add
 								Model</button>

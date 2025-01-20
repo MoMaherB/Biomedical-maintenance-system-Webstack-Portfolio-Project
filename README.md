@@ -42,6 +42,7 @@ This project is a Biomedical Maintenance System designed to manage and track the
 1. Open your web browser and navigate to `http://localhost:5000`.
 2. Register a new account or log in with existing credentials.
 3. Start managing biomedical equipment and scheduling maintenance.
+4. In login page enter with these credentials: email: admin@maintenance.com password: Adminpassword.
 
 ## Contributing
 

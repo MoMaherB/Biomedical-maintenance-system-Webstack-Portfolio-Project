@@ -68,7 +68,8 @@
 							</div>
 							<!-- Right Side: User Photo -->
 							<div class="col-lg-4 text-center mt-1">
-								<img src="{{ url_for('static', filename='images/'+device_picture) }}" alt="User Photo"
+							{% set device_picture = (device.models | random).picture if device.models else 'default.jpg' %}
+								<img src="{{ url_for('static', filename='images/'+ device_picture) }}" alt="User Photo"
 									class="rounded-photo mt-2">
 							</div>
 						</div>

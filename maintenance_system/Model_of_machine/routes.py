@@ -2,7 +2,9 @@ from flask import render_template, request, redirect, url_for, flash, Blueprint
 from maintenance_system import db
 from maintenance_system.models import Device, Model
 from .forms import ModelForm
-from random import choice
+import os
+from uuid import uuid4
+
 
 modelsbp = Blueprint('modelsbp', __name__)
 
@@ -26,7 +28,13 @@ def add_model(device_id):
     if request.method == 'GET':
         return redirect(url_for('modelsbp.models', device_id=device_id))
     elif form.validate_on_submit():
-        New_model = Model(name=form.name.data, manufacturer=form.manufacturer.data, device_id=device_id)
+        if form.picture.data:
+            picture_file = form.picture.data
+            _, file_ext = os.path.splitext(picture_file.filename)
+            picture_name = f'{form.name.data}{file_ext}'
+            picture_file.save(f'maintenance_system/static/images/{picture_name}')
+               
+        New_model = Model(name=form.name.data, manufacturer=form.manufacturer.data, device_id=device_id, picture=picture_name)
         db.session.add(New_model)
         db.session.commit()
         flash(f'Model {form.name.data} has been created successfully!', 'success')
@@ -57,6 +65,13 @@ def update_model(model_id):
     if request.method == 'GET':
         return redirect(url_for('models', device_id=model.device_id))
     elif form.validate_on_submit():
+        if form.picture.data:
+            picture_file = form.picture.data
+            _, file_ext = os.path.splitext(picture_file.filename)
+            picture_name = f'{form.name.data}{uuid4().hex}{file_ext}'
+            picture_file.save(f'maintenance_system/static/images/{picture_name}')
+            model.picture = picture_name
+            
         model.name = form.name.data
         model.manufacturer = form.manufacturer.data
         db.session.commit()
