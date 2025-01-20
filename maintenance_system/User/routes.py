@@ -1,8 +1,10 @@
 from flask import render_template, url_for, flash, redirect, Blueprint
-from maintenance_system import db, bycrypt
+from maintenance_system import db, bycrypt, app
 from maintenance_system.models import User
-from .forms import UserForm, LoginForm
+from .forms import UserForm, LoginForm, UpdateUserForm
 from flask_login import login_user, current_user, logout_user, login_required
+import os
+from PIL import Image
 
 
 usersbp = Blueprint('usersbp', __name__)
@@ -70,3 +72,32 @@ def user(id):
         return redirect(url_for('usersbp.login'))
     user = User.query.get_or_404(id)
     return render_template('user.html', user=user)
+
+@login_required
+@usersbp.route('/update_user/<int:id>', methods=['GET', 'POST'])
+def update_user(id):
+    """Update a user by id"""
+    if not current_user.is_authenticated:
+        return redirect(url_for('usersbp.login'))
+    user = User.query.get_or_404(id)
+    form = UpdateUserForm()
+    form.username.data = user.username
+    form.email.data = user.email
+    print(os.path.abspath(__file__))
+    if form.validate_on_submit():
+        if form.picture.data:
+            _, file_ext = os.path.splitext(form.picture.data.filename)
+            picture_file = f'{form.username.data}{file_ext}'
+            output_size = (500, 500)
+            i = Image.open(form.picture.data)
+            i.thumbnail(output_size)
+            i.save(os.path.join(app.root_path, 'static/images/', picture_file))
+            # form.picture.data.save(os.path.join(app.root_path, 'static/images/', picture_file))
+            user.profile_pic = picture_file
+        user.username = form.username.data
+        user.email = form.email.data
+        db.session.commit()
+        flash('User has been updated successfully!', 'success')
+        return redirect(url_for('usersbp.user', id=user.id))
+    return render_template('update_user.html', form=form)
+     
