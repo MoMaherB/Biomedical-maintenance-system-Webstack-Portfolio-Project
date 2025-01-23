@@ -82,3 +82,25 @@ body {
 	color: var(--bs-success);
 	/* Changes color to Bootstrap success color */
 }
+
+
+.card {
+	border-radius: 10px;
+}
+
+.card:hover {
+	transform: scale(1.02);
+	transition: transform 0.2s ease-in-out;
+}
+
+.list-group-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.badge {
+	font-size: 0.9rem;
+	padding: 0.4em 0.7em;
+	border-radius: 12px;
+}

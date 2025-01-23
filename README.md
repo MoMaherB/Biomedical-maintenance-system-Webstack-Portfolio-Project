@@ -13,7 +13,7 @@ This project is a Biomedical Maintenance System designed to manage and track the
 
 - Frontend: HTML, CSS, Bootstrap
 - Backend: Python, Flask
-- Database: MongoDB, SQLite (SQLAlchemy)
+- Database: SQLite (SQLAlchemy)
 - Templating: Jinja2
 - Version Control: Git
 

@@ -1,35 +1,70 @@
-{% extends "layout.html"%}
+{% extends "layout.html" %}
 
 {% block content %}
 
-<div class="row justify-content-center">
-	{% for user in users %}
-	{% if user.rank != "Admin" %}
-	<div class="col-md-8 col-lg-8 mt-4 mb-4">
-		<div class="card p-3 shadow-sm">
-			<div class="row align-items-center">
-				<!-- Left Side: User Information -->
-				<div class="col-md-8 col-12">
-					<a href=" {{url_for('usersbp.user', id=user.id) }}">
-						<h4 class="mb-1">{{user.username}}</h4>
-					</a>
-					<p class="text-muted mb-1">Email: {{user.email}}</p>
-					<p class="text-muted mb-1">Role: {{user.rank}}</p>
-					<p class="text-muted mb-1">Joined: Jan 1, 2024</p>
-					<p class="text-muted mb-1">Department: <a href="#">{{user.department.name}}</a>
-					</p>
-					{{user.password}}
+<div class="container my-5">
+	<div class="row justify-content-center">
+		{% for user in users %}
+		{% if user.rank != "Admin" %}
+		<div class="col-md-10 col-lg-8 mt-4 mb-4">
+			<div class="card p-4 shadow border-0">
+				<div class="row align-items-center">
+					<!-- Left Side: User Information -->
+					<div class="col-md-8 col-12">
+						<a class="text-decoration-none text-dark" href="{{ url_for('usersbp.user', id=user.id) }}">
+							<h4 class="fw-bold">{{ user.username }}</h4>
+						</a>
+						<p class="text-muted mb-2">
+							<strong>Email:</strong> {{ user.email }}
+						</p>
+						<p class="text-muted mb-2">
+							<strong>Role:</strong> {{ user.rank }}
+						</p>
+						<p class="text-muted mb-2">
+							<strong>Joined:</strong> Jan 1, 2024
+						</p>
+						<p class="text-muted mb-2">
+							<strong>Department:</strong>
+							{% if user.department %}
+							<a class="text-decoration-none text-primary"
+								href="{{ url_for('devicesbp.devices', department_id=user.department.id) }}">
+								{{ user.department.name }}
+							</a>
+							{% else %}
+							<span class="text-danger">No Department</span>
+							{% endif %}
+						</p>
+					</div>
+					<!-- Right Side: User Photo -->
+					<div class="col-md-4 col-12 text-center">
+						<img src="{{ url_for('static', filename='images/' + user.profile_pic) }}" alt="User Photo"
+							class="rounded-circle img-fluid border shadow-sm" style="max-width: 150px;">
+					</div>
 				</div>
-				<!-- Right Side: User Photo -->
-				<div class="col-md-4 col-12 text-center">
-					<img src="{{ url_for('static', filename='images/' + user.profile_pic) }}" alt="User Photo"
-						class="rounded-photo">
+
+				<!-- User Tasks -->
+				{% if user.tasks %}
+				<div class="mt-4">
+					<h5 class="fw-bold">Tasks</h5>
+					<div class="row">
+						{% for task in user.tasks %}
+						<div class="col-md-6 mb-3">
+							<div class="card p-3 border-light shadow-sm">
+								<p class="mb-1">{{ task.description }}</p>
+								<span class="badge {% if task.status == 0 %} bg-danger {% else %} bg-success {% endif %}">
+									{% if task.status == 0 %} In Progress {% else %} Completed {% endif %}
+								</span>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
 				</div>
+				{% endif %}
 			</div>
 		</div>
+		{% endif %}
+		{% endfor %}
 	</div>
-	{% endif %}
-	{% endfor %}
 </div>
 
-{% endblock%}
+{% endblock %}

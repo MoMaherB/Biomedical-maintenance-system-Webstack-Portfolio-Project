@@ -103,4 +103,4 @@ class Task(db.Model):
 
 	
 	def __repr__(self):
-		return f'<Hospital: {self.name}>'
+		return f'<Tasks: {self.task_type}>'

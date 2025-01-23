@@ -1,41 +1,43 @@
-{% extends "layout.html" %}
+{% extends "layout.html"%}
+
 {% block content %}
-<div class="sliding-container">
-	<!-- Sliding Image -->
-	<img src="{{ url_for('static', filename='images/brands.png')}}" alt="Sliding Image"
-		class="img-fluid continuous-slide">
-</div>
-
 <div class="row justify-content-center">
+	<!-- Department Card -->
+	<div class="col-md-4 mb-4">
+		<div class="card">
+			{% set department_image = (current_user.department.devices[0].models | random).picture %}
+			<img src="{{url_for('static', filename='images/' + department_image )}}" class="card-img-top"
+				alt="Departments">
+			<div class="card-body text-center">
+				<h4 class="card-title"><span class="badge text-bg-info">Departments</span></h4>
+				<a href="{{ url_for('departmentsbp.departments') }}" class="btn btn-primary">Go to Departments</a>
+			</div>
+		</div>
+	</div>
 
-	<div class="col-md-4 mb-4 mt-4">
+	<!-- Tasks Card -->
+	<div class="col-md-4 mb-4">
 		<div class="card">
-			<img src="{{ url_for('static', filename='images/1.png')}}" class="card-img-top  card-img" alt="...">
-			<div class="card-body">
-				<h5 class="card-title>Card title">title</h5>
-				<p class=" card-text">This is a wider card with supporting text below as a natural lead-in to
-					additional content. This content is a little bit longer.</p>
+			<img src="{{ url_for('static', filename='images/device_model.jpg') }}" class="card-img-top" alt="Tasks">
+			<div class="card-body text-center">
+				<h4 class="card-title"><span class="badge text-bg-danger">Tasks</span></h4>
+				<a href="{{ url_for('taskpb.in_progress_tasks', department_id = current_user.department.id) }}"
+					class="btn btn-primary">Go to Tasks</a>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-4 mb-4 mt-4">
+
+	<!-- Users Card -->
+	<div class="col-md-4 mb-4">
 		<div class="card">
-			<img src="{{ url_for('static', filename='images/1.png')}}" class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title>Card title">title</h5>
-				<p class=" card-text">This is a wider card with supporting text below as a natural lead-in to
-					additional content. This content is a little bit longer.</p>
+			<img src="{{url_for('static', filename='images/' + current_user.profile_pic)}}" class="card-img-top"
+				alt="Users">
+			<div class="card-body text-center">
+				<a href="{{ url_for('usersbp.users') }}">
+					<h4 class="card-title badge text-bg-danger">Users</h4>
+				</a>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-4 mb-4 mt-4">
-		<div class="card">
-			<img src="{{ url_for('static', filename='images/1.png')}}" class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title>Card title">title</h5>
-				<p class=" card-text">This is a wider card with supporting text below as a natural lead-in to
-					additional content. This content is a little bit longer.</p>
-			</div>
-		</div>
-	</div>
-</div>{% endblock %}
+</div>
+{% endblock %}
