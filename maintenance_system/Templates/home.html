@@ -5,27 +5,27 @@
 	<!-- Department Card -->
 	<div class="col-md-4 mb-4">
 		<div class="card">
-			{% set department_image = (current_user.department.devices[0].models | random).picture %}
+			{% set department_image = (current_user.department.devices[0].models | random).picture if current_user.department else 'device_model.jpg' %}
 			<img src="{{url_for('static', filename='images/' + department_image )}}" class="card-img-top"
 				alt="Departments">
 			<div class="card-body text-center">
-				<h4 class="card-title"><span class="badge text-bg-info">Departments</span></h4>
-				<a href="{{ url_for('departmentsbp.departments') }}" class="btn btn-primary">Go to Departments</a>
+				<a href="{{ url_for('departmentsbp.departments') }}"class="btn btn btn-outline-danger btn-lg">Go to Departments</a>
 			</div>
 		</div>
 	</div>
 
 	<!-- Tasks Card -->
+	{% if current_user.department %}
 	<div class="col-md-4 mb-4">
 		<div class="card">
 			<img src="{{ url_for('static', filename='images/device_model.jpg') }}" class="card-img-top" alt="Tasks">
 			<div class="card-body text-center">
-				<h4 class="card-title"><span class="badge text-bg-danger">Tasks</span></h4>
 				<a href="{{ url_for('taskpb.in_progress_tasks', department_id = current_user.department.id) }}"
-					class="btn btn-primary">Go to Tasks</a>
+					class="btn btn btn-outline-info btn-lg">Go to Tasks</a>
 			</div>
 		</div>
 	</div>
+	{% endif %}
 
 	<!-- Users Card -->
 	<div class="col-md-4 mb-4">
@@ -33,8 +33,8 @@
 			<img src="{{url_for('static', filename='images/' + current_user.profile_pic)}}" class="card-img-top"
 				alt="Users">
 			<div class="card-body text-center">
-				<a href="{{ url_for('usersbp.users') }}">
-					<h4 class="card-title badge text-bg-danger">Users</h4>
+				<a href="{{ url_for('usersbp.users') }}" class="btn btn btn-outline-success btn-lg">
+					Go to Users
 				</a>
 			</div>
 		</div>

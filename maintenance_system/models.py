@@ -85,7 +85,8 @@ class Hospital(db.Model):
 	governorate = db.Column(db.String(80))
 	tasks = db.relationship('Task', backref='hospital', lazy=True)
 	machines = db.relationship('Machine', backref='hospital', lazy=True)
-
+	def __repr__(self):
+		return f'<Hospital: {self.name}>'
 
 
 class Task(db.Model):
