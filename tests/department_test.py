@@ -8,15 +8,6 @@ from maintenance_system import db, bycrypt, login_manager
 from maintenance_system.models import Department
 from flask import Flask
 from maintenance_system.Departments import departmentsbp
-import os
-import unittest
-from flask_testing import TestCase
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from maintenance_system import db, bycrypt, login_manager 
-from maintenance_system.models import Device
-from flask import Flask
-from maintenance_system.Devices import devicesbp
 
 
 class TestUser(TestCase):
@@ -56,7 +47,7 @@ class TestUser(TestCase):
         db.init_app(app)
         bycrypt.init_app(app)
         login_manager.init_app(app)
-        app.register_blueprint(devicesbp)
+        app.register_blueprint(departmentsbp)
 
         return app
 

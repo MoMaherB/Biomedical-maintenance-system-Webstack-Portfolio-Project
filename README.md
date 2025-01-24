@@ -140,6 +140,14 @@ curl -X GET http://localhost:5000/api/hospitals
 curl -X GET http://localhost:5000/api/hospitals/{id}
 ```
 
+## Tests
+```bash
+python3 -m unittest -v tests/department_test.py
+python3 -m unittest -v tests/device_test.py
+python3 -m unittest -v tests/user_test.py
+python3 -m unittest -v tests/hospitals_test.py
+```
+
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the ALX scholarship.
