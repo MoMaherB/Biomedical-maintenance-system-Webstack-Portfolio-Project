@@ -4,7 +4,7 @@
 <div class="container mt-5">
 	<div class="row justify-content-center">
 		<div class="col-lg-10">
-			<div class="card p-4 shadow-sm">
+			<div class=" p-4 shadow-sm">
 				<!-- Model Info -->
 				<div class="text-center mb-4">
 					<h1 class="display-5">{{ model.name }}</h1>
@@ -17,7 +17,8 @@
 						<h6 class="text-secondary">{{ model.device.department.name }} Department</h6>
 					</a>
 					{% if current_user.username == "Admin" %}
-					<a href="{{ url_for('machinesbp.add_machine', model_id=model.id) }}" class="btn btn-info btn-sm mt-3">
+					<a href="{{ url_for('machinesbp.add_machine', model_id=model.id) }}"
+						class="btn btn-info btn-sm mt-3">
 						Add New Machine
 					</a>
 					{% endif %}
@@ -42,7 +43,8 @@
 						<select id="hospital" name="hospital" class="form-select" onchange="this.form.submit()">
 							<option value="">Select Hospital</option>
 							{% for hospital in hospitals %}
-							<option value="{{ hospital.id }}" {% if request.args.get('hospital')==hospital.id %}selected{% endif %}>
+							<option value="{{ hospital.id }}" {% if request.args.get('hospital')==hospital.id
+								%}selected{% endif %}>
 								{{ hospital.name }}
 							</option>
 							{% endfor %}
